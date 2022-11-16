@@ -1,49 +1,81 @@
 [
     {
-        "id": "656ed36491044534",
+        "id": "e75e23786ba51dab",
         "type": "tab",
-        "label": "Smart Retail Analytics v3.4",
+        "label": "Smart Retail Analytics v3.7",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "f8434886bda7388e",
+        "id": "d00dfb3d4b5d3c53",
+        "type": "tab",
+        "label": "Geti : Create Project",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2603fefaa5a0af92",
+        "type": "tab",
+        "label": "Geti : Get Project",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a4170142ba245b9c",
+        "type": "tab",
+        "label": "Geti : Upload Dataset",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5797107fb9e56730",
+        "type": "tab",
+        "label": "Geti : Train",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fb7fab4d41bf50a8",
         "type": "junction",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "x": 260,
         "y": 280,
         "wires": [
             [
-                "f67acaa9e7f5cbf6",
-                "e1bfbd1ed07a8819",
-                "12de6e650d456909"
+                "95437ec30d717a38",
+                "48734737bb121daf",
+                "8ea7378f19572960"
             ]
         ]
     },
     {
-        "id": "e1bfbd1ed07a8819",
+        "id": "48734737bb121daf",
         "type": "junction",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "x": 300,
         "y": 280,
         "wires": [
             [
-                "c558ddb2fc50220d",
-                "b27f60514fbe54e1",
-                "627181e3b1f1e4f6"
+                "62a0e6207598af23",
+                "c63283ab28f0c4fa",
+                "11a74bcafd9b1752"
             ]
         ]
     },
     {
-        "id": "daeebc5b4836bb70",
+        "id": "dd41a1e409b8a04c",
         "type": "junction",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "x": 1100,
         "y": 280,
         "wires": [
             [
-                "7e3d948204adc16f"
+                "b2b1c5dd3ca7d700"
             ]
         ]
     },
@@ -75,17 +107,33 @@
         "sessionExpiry": ""
     },
     {
-        "id": "09c72df344f3e5bf",
-        "type": "edge-video-analytics-server",
-        "name": "Edge-Video-Analytics-Server",
-        "host": "EVAM_DNS",
+        "id": "acd00dc25461affb",
+        "type": "detect-shopper-server",
+        "name": "EVAM-Local",
+        "host": "HOST_IP",
         "hostInputType": "env",
         "port": "8080"
     },
     {
-        "id": "6601a8ae02d23284",
+        "id": "01e9181b40bb0ea1",
+        "type": "shopper-pose-mood-server",
+        "name": "EVAM-Local",
+        "host": "HOST_IP",
+        "hostInputType": "env",
+        "port": "8080"
+    },
+    {
+        "id": "845ae8a4a8bb5f2e",
+        "type": "shelf-object-count-server",
+        "name": "EVAM-Local",
+        "host": "HOST_IP",
+        "hostInputType": "env",
+        "port": "8080"
+    },
+    {
+        "id": "0e70d1ce1cc593e7",
         "type": "inject",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Configure Hosts",
         "props": [
             {
@@ -112,14 +160,14 @@
         "y": 280,
         "wires": [
             [
-                "f8434886bda7388e"
+                "fb7fab4d41bf50a8"
             ]
         ]
     },
     {
-        "id": "7e3d948204adc16f",
+        "id": "b2b1c5dd3ca7d700",
         "type": "debug",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Debug Pipeline ID",
         "active": true,
         "tosidebar": true,
@@ -134,9 +182,9 @@
         "wires": []
     },
     {
-        "id": "06f4980350602c68",
+        "id": "6ead97409fd0ceed",
         "type": "http request",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Pre-Process: Resize",
         "method": "POST",
         "ret": "obj",
@@ -145,7 +193,6 @@
         "tls": "",
         "persist": false,
         "proxy": "",
-        "insecureHTTPParser": false,
         "authType": "",
         "senderr": false,
         "headers": [],
@@ -153,14 +200,14 @@
         "y": 180,
         "wires": [
             [
-                "7eff564ff8b2bf70"
+                "d0524612269b86de"
             ]
         ]
     },
     {
-        "id": "c558ddb2fc50220d",
+        "id": "11a74bcafd9b1752",
         "type": "change",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Video Source 1",
         "rules": [
             {
@@ -180,21 +227,21 @@
         "y": 180,
         "wires": [
             [
-                "06f4980350602c68"
+                "6ead97409fd0ceed"
             ]
         ]
     },
     {
-        "id": "627181e3b1f1e4f6",
+        "id": "62a0e6207598af23",
         "type": "change",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Video Source 3",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\"video\":\"https://github.com/intel-iot-devkit/sample-videos/raw/master/bottle-detection.mp4\"}",
+                "to": "{\"video\":\"https://github.com/chandrakantkhandelwal/demo_videos/raw/main/sample_videos/bottle-object_detection.mp4\"}",
                 "tot": "json"
             }
         ],
@@ -207,14 +254,14 @@
         "y": 380,
         "wires": [
             [
-                "babea1b85a6d097b"
+                "fe59b09e9d9bbcc6"
             ]
         ]
     },
     {
-        "id": "b27f60514fbe54e1",
+        "id": "c63283ab28f0c4fa",
         "type": "change",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Video Source 2",
         "rules": [
             {
@@ -234,14 +281,14 @@
         "y": 280,
         "wires": [
             [
-                "032e413ae17b3c2c"
+                "597adde24f678ba8"
             ]
         ]
     },
     {
-        "id": "032e413ae17b3c2c",
+        "id": "597adde24f678ba8",
         "type": "http request",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Pre-Process: Resize",
         "method": "POST",
         "ret": "obj",
@@ -250,7 +297,6 @@
         "tls": "",
         "persist": false,
         "proxy": "",
-        "insecureHTTPParser": false,
         "authType": "",
         "senderr": false,
         "headers": [],
@@ -258,14 +304,14 @@
         "y": 280,
         "wires": [
             [
-                "80af62f07074ae2b"
+                "a3bf4f7fcc2a88b3"
             ]
         ]
     },
     {
-        "id": "babea1b85a6d097b",
+        "id": "fe59b09e9d9bbcc6",
         "type": "http request",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Pre-Process: Resize",
         "method": "POST",
         "ret": "obj",
@@ -282,14 +328,14 @@
         "y": 380,
         "wires": [
             [
-                "1aa994d23e928081"
+                "cd8af53f065b2345"
             ]
         ]
     },
     {
-        "id": "d8dbac297fa2378b",
+        "id": "a95e8520342f05c0",
         "type": "mqtt in",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Get Metadata : MQTT",
         "topic": "",
         "qos": "2",
@@ -303,14 +349,14 @@
         "y": 480,
         "wires": [
             [
-                "c91829bf086d3eb0"
+                "af58b02f28de1317"
             ]
         ]
     },
     {
-        "id": "03df35329a56b3b8",
+        "id": "f0f6180a340a7b77",
         "type": "switch",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "If 2 person detected",
         "property": "payload.num_of_person",
         "propertyType": "msg",
@@ -328,14 +374,14 @@
         "y": 480,
         "wires": [
             [
-                "4e71a1cf7ff0b6f5"
+                "1c5508a899118cf5"
             ]
         ]
     },
     {
-        "id": "4e71a1cf7ff0b6f5",
+        "id": "1c5508a899118cf5",
         "type": "debug",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Debug People Count",
         "active": true,
         "tosidebar": true,
@@ -350,9 +396,9 @@
         "wires": []
     },
     {
-        "id": "12de6e650d456909",
+        "id": "8ea7378f19572960",
         "type": "change",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Action: Subscribe",
         "rules": [
             {
@@ -372,14 +418,14 @@
         "y": 480,
         "wires": [
             [
-                "d8dbac297fa2378b"
+                "a95e8520342f05c0"
             ]
         ]
     },
     {
-        "id": "f67acaa9e7f5cbf6",
+        "id": "95437ec30d717a38",
         "type": "change",
-        "z": "656ed36491044534",
+        "z": "e75e23786ba51dab",
         "name": "Action: Connect",
         "rules": [
             {
@@ -406,62 +452,34 @@
         "y": 80,
         "wires": [
             [
-                "0503d7b0e7ccf3d5"
+                "3626503a802ca608"
             ]
         ]
     },
     {
-        "id": "c91829bf086d3eb0",
-        "type": "workspace-function-ext",
-        "z": "656ed36491044534",
-        "name": "Count People : Python",
-        "path": "",
-        "sourcetype": "python",
-        "source": "count = 0\r\nmessage = msg['payload']\r\nsrc = message['source']\r\nvideo = src.rsplit('/', 1)[-1]\r\nfor obj in message['objects']:\r\n    if obj['detection']['label_id'] == 1:\r\n        count = count + 1\r\nmsg['payload'] = { 'num_of_person': count, 'video_src': video }\r\nreturn msg",
-        "outputs": 1,
-        "x": 880,
-        "y": 480,
-        "wires": [
-            [
-                "03df35329a56b3b8"
-            ]
-        ]
+        "id": "3626503a802ca608",
+        "type": "mqtt out",
+        "z": "e75e23786ba51dab",
+        "name": "Connect to MQTT Broker",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4cbb7822169a3c10",
+        "x": 650,
+        "y": 80,
+        "wires": []
     },
     {
-        "id": "7eff564ff8b2bf70",
-        "type": "intel-edge-video-analytics",
-        "z": "656ed36491044534",
-        "name": "Detect Person",
-        "server": "09c72df344f3e5bf",
-        "operation": "start",
-        "pipeline": "object_detection/person-gvapython",
-        "pipelineList": [
-            "",
-            "object_tracking/object_line_crossing",
-            "object_tracking/person_vehicle_bike",
-            "action_recognition/general",
-            "action_recognition/head_pose",
-            "shopper-pose-mood/v2",
-            "shopper-pose-mood/v1",
-            "face_detection/adas",
-            "emotion_recognition/v1",
-            "video_decode/app_dst",
-            "object_detection/yolo-v2-tiny-tf",
-            "object_detection/yolo-v2-gvapython",
-            "object_detection/object_zone_count",
-            "object_detection/app_src_dst",
-            "object_detection/vehicle",
-            "object_detection/person_vehicle_bike",
-            "object_detection/person",
-            "object_detection/person-gvapython",
-            "object_classification/vehicle_attributes",
-            "audio_detection/environment"
-        ],
-        "selectedPipeline": "object_detection/person-gvapython",
-        "pipelineName": "shopper-count-duration",
-        "pipelineNameType": "str",
-        "instanceId": "",
-        "instanceIdInputType": "str",
+        "id": "d0524612269b86de",
+        "type": "intel-detect-shopper",
+        "z": "e75e23786ba51dab",
+        "name": "Detect Shopper",
+        "server": "acd00dc25461affb",
         "video": "payload.video_file",
         "videoInputType": "msg",
         "selectedMetadataOption": "mqtt",
@@ -483,59 +501,31 @@
         "metadata": "mqtt",
         "frame": "",
         "detectionDevice": "",
-        "useZeromq": true,
         "zeromqServer": "\"tcp://\" & $env('SERVER_DNS') & \":5555\"",
         "zeromqServerType": "jsonata",
         "useModelInstanceId": true,
-        "modelInstanceId": "{\"detection-model-instance-id\":\"person\"}",
-        "modelInstanceIdType": "json",
+        "modelInstanceId": "person",
+        "modelInstanceIdType": "str",
         "useNewModel": "",
-        "newModel": "",
-        "newModelType": "json",
+        "newDetectionModel": "",
+        "newDetectionModelType": "str",
+        "newDetectionModelProc": "",
+        "newDetectionModelProcType": "str",
         "checkStatus": "",
-        "x": 940,
+        "x": 920,
         "y": 180,
         "wires": [
             [
-                "daeebc5b4836bb70"
+                "dd41a1e409b8a04c"
             ]
         ]
     },
     {
-        "id": "80af62f07074ae2b",
-        "type": "intel-edge-video-analytics",
-        "z": "656ed36491044534",
+        "id": "a3bf4f7fcc2a88b3",
+        "type": "intel-shopper-pose-mood",
+        "z": "e75e23786ba51dab",
         "name": "Shopper Pose/Mood",
-        "server": "09c72df344f3e5bf",
-        "operation": "start",
-        "pipeline": "shopper-pose-mood/v2",
-        "pipelineList": [
-            "",
-            "object_tracking/object_line_crossing",
-            "object_tracking/person_vehicle_bike",
-            "action_recognition/general",
-            "action_recognition/head_pose",
-            "shopper-pose-mood/v2",
-            "shopper-pose-mood/v1",
-            "face_detection/adas",
-            "emotion_recognition/v1",
-            "video_decode/app_dst",
-            "object_detection/yolo-v2-tiny-tf",
-            "object_detection/yolo-v2-gvapython",
-            "object_detection/object_zone_count",
-            "object_detection/app_src_dst",
-            "object_detection/vehicle",
-            "object_detection/person_vehicle_bike",
-            "object_detection/person",
-            "object_detection/person-gvapython",
-            "object_classification/vehicle_attributes",
-            "audio_detection/environment"
-        ],
-        "selectedPipeline": "shopper-pose-mood/v2",
-        "pipelineName": "shopper-pose-mood-estimation",
-        "pipelineNameType": "str",
-        "instanceId": "",
-        "instanceIdInputType": "str",
+        "server": "01e9181b40bb0ea1",
         "video": "payload.video_file",
         "videoInputType": "msg",
         "selectedMetadataOption": "",
@@ -557,59 +547,41 @@
         "metadata": "",
         "frame": "",
         "detectionDevice": "",
-        "useZeromq": true,
         "zeromqServer": "\"tcp://\" & $env('SERVER_DNS') & \":5555\"",
         "zeromqServerType": "jsonata",
         "useModelInstanceId": true,
-        "modelInstanceId": "{\"detection-model-instance-id\":\"shopper\",\"inference-model-instance-id\":\"pose\",\"classification-model-instance-id\":\"mood\"}",
-        "modelInstanceIdType": "json",
+        "detectionInstanceId": "shopper",
+        "detectionInstanceIdType": "str",
+        "inferenceInstanceId": "pose",
+        "inferenceInstanceIdType": "str",
+        "classificationInstanceId": "mood",
+        "classificationInstanceIdType": "str",
         "useNewModel": "",
-        "newModel": "",
-        "newModelType": "json",
+        "newDetectionModel": "",
+        "newDetectionModelType": "str",
+        "newDetectionModelProc": "",
+        "newDetectionModelProcType": "str",
+        "newInferenceModel": "",
+        "newInferenceModelType": "str",
+        "newClassificationModel": "",
+        "newClassificationModelType": "str",
+        "newClassificationModelProc": "",
+        "newClassificationModelProcType": "str",
         "checkStatus": "",
-        "x": 920,
+        "x": 940,
         "y": 280,
         "wires": [
             [
-                "daeebc5b4836bb70"
+                "dd41a1e409b8a04c"
             ]
         ]
     },
     {
-        "id": "1aa994d23e928081",
-        "type": "intel-edge-video-analytics",
-        "z": "656ed36491044534",
-        "name": "Shelf Object Count",
-        "server": "09c72df344f3e5bf",
-        "operation": "start",
-        "pipeline": "object_detection/yolo-v2-gvapython",
-        "pipelineList": [
-            "",
-            "object_tracking/object_line_crossing",
-            "object_tracking/person_vehicle_bike",
-            "action_recognition/general",
-            "action_recognition/head_pose",
-            "shopper-pose-mood/v2",
-            "shopper-pose-mood/v1",
-            "face_detection/adas",
-            "emotion_recognition/v1",
-            "video_decode/app_dst",
-            "object_detection/yolo-v2-tiny-tf",
-            "object_detection/yolo-v2-gvapython",
-            "object_detection/object_zone_count",
-            "object_detection/app_src_dst",
-            "object_detection/vehicle",
-            "object_detection/person_vehicle_bike",
-            "object_detection/person",
-            "object_detection/person-gvapython",
-            "object_classification/vehicle_attributes",
-            "audio_detection/environment"
-        ],
-        "selectedPipeline": "object_detection/yolo-v2-gvapython",
-        "pipelineName": "shelf-object-count",
-        "pipelineNameType": "str",
-        "instanceId": "",
-        "instanceIdInputType": "str",
+        "id": "cd8af53f065b2345",
+        "type": "intel-shelf-object-count",
+        "z": "e75e23786ba51dab",
+        "name": "",
+        "server": "845ae8a4a8bb5f2e",
         "video": "payload.video_file",
         "videoInputType": "msg",
         "selectedMetadataOption": "",
@@ -631,40 +603,639 @@
         "metadata": "",
         "frame": "",
         "detectionDevice": "",
-        "useZeromq": true,
         "zeromqServer": "\"tcp://\" & $env('SERVER_DNS') & \":5555\"",
         "zeromqServerType": "jsonata",
         "useModelInstanceId": true,
-        "modelInstanceId": "{\"detection-model-instance-id\":\"shelf\"}",
-        "modelInstanceIdType": "json",
-        "useNewModel": "",
-        "newModel": "",
-        "newModelType": "json",
+        "modelInstanceId": "shelf",
+        "modelInstanceIdType": "str",
+        "useNewModel": true,
+        "newDetectionModel": "models/object_detection/SSD_1/FP32/SSD_1.xml",
+        "newDetectionModelType": "str",
+        "newDetectionModelProc": "models/object_detection/SSD_1/SSD_1.json",
+        "newDetectionModelProcType": "str",
         "checkStatus": "",
         "x": 930,
         "y": 380,
         "wires": [
             [
-                "daeebc5b4836bb70"
+                "dd41a1e409b8a04c"
             ]
         ]
     },
     {
-        "id": "0503d7b0e7ccf3d5",
-        "type": "mqtt out",
-        "z": "656ed36491044534",
-        "name": "Connect to MQTT Broker",
+        "id": "af58b02f28de1317",
+        "type": "function",
+        "z": "e75e23786ba51dab",
+        "name": "Count People",
+        "func": "/* Counting people from Intel EVAM inference */\nlet count = 0;\nconst getCount = (elem) => {\n    if (elem.detection.label_id === 1) {\n        count++;\n    }\n};\n\nconst message = msg.payload;\nconst src = message.source;\nconst video = src.substr(src.lastIndexOf('/') + 1, src.length);\nmessage.objects.forEach(getCount);\nmsg.payload = { num_of_person: count,  video_src: video };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 480,
+        "wires": [
+            [
+                "f0f6180a340a7b77"
+            ]
+        ]
+    },
+    {
+        "id": "7c1522486ce124e3",
+        "type": "inject",
+        "z": "d00dfb3d4b5d3c53",
+        "name": "Config API",
+        "props": [
+            {
+                "p": "host",
+                "v": "MLOPS_BUILD",
+                "vt": "env"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
         "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "4cbb7822169a3c10",
-        "x": 650,
-        "y": 80,
+        "x": 240,
+        "y": 240,
+        "wires": [
+            [
+                "8d8c2a48ffef233b"
+            ]
+        ]
+    },
+    {
+        "id": "94faf616f7db8dae",
+        "type": "http request",
+        "z": "d00dfb3d4b5d3c53",
+        "name": "Create Project",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "{{{host}}}:8000/projects?project_name={{{project_name}}}&type={{{type}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "a6f0c772b4c05d0f"
+            ]
+        ]
+    },
+    {
+        "id": "8d8c2a48ffef233b",
+        "type": "change",
+        "z": "d00dfb3d4b5d3c53",
+        "name": "Set Params",
+        "rules": [
+            {
+                "t": "set",
+                "p": "project_name",
+                "pt": "msg",
+                "to": "object_detection",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"labels\":[\"bicycle\",\"vehicle\"]}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "type",
+                "pt": "msg",
+                "to": "Detection",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 240,
+        "wires": [
+            [
+                "94faf616f7db8dae"
+            ]
+        ]
+    },
+    {
+        "id": "a6f0c772b4c05d0f",
+        "type": "switch",
+        "z": "d00dfb3d4b5d3c53",
+        "name": "Check Status",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "success",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 850,
+        "y": 240,
+        "wires": [
+            [
+                "78ef5fccae68c224"
+            ],
+            [
+                "3e2027ae9c943b34"
+            ]
+        ]
+    },
+    {
+        "id": "3e2027ae9c943b34",
+        "type": "debug",
+        "z": "d00dfb3d4b5d3c53",
+        "name": "Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "78ef5fccae68c224",
+        "type": "debug",
+        "z": "d00dfb3d4b5d3c53",
+        "name": "Success",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "23ec9b9fe7ea73b4",
+        "type": "inject",
+        "z": "2603fefaa5a0af92",
+        "name": "Config API",
+        "props": [
+            {
+                "p": "host",
+                "v": "MLOPS_BUILD",
+                "vt": "env"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "027b9079396914ef"
+            ]
+        ]
+    },
+    {
+        "id": "027b9079396914ef",
+        "type": "change",
+        "z": "2603fefaa5a0af92",
+        "name": "Set Project Name",
+        "rules": [
+            {
+                "t": "set",
+                "p": "project_name",
+                "pt": "msg",
+                "to": "object_detection",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 310,
+        "y": 240,
+        "wires": [
+            [
+                "3b98063d7d873010"
+            ]
+        ]
+    },
+    {
+        "id": "3b98063d7d873010",
+        "type": "http request",
+        "z": "2603fefaa5a0af92",
+        "name": "Get Project Detail",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "{{{host}}}:8000/projects/{{{project_name}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 530,
+        "y": 240,
+        "wires": [
+            [
+                "0d8c5508d98fe663"
+            ]
+        ]
+    },
+    {
+        "id": "0d8c5508d98fe663",
+        "type": "switch",
+        "z": "2603fefaa5a0af92",
+        "name": "Check Status",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 730,
+        "y": 240,
+        "wires": [
+            [
+                "07abf5246635079a"
+            ],
+            [
+                "446c22390da784d0"
+            ]
+        ]
+    },
+    {
+        "id": "446c22390da784d0",
+        "type": "debug",
+        "z": "2603fefaa5a0af92",
+        "name": "Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "07abf5246635079a",
+        "type": "debug",
+        "z": "2603fefaa5a0af92",
+        "name": "Success",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c89a118fb8132404",
+        "type": "change",
+        "z": "a4170142ba245b9c",
+        "name": "Set Params",
+        "rules": [
+            {
+                "t": "set",
+                "p": "option",
+                "pt": "msg",
+                "to": "Replace",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "project_name",
+                "pt": "msg",
+                "to": "object_detection",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 260,
+        "wires": [
+            [
+                "0fa9ad7efb627677"
+            ]
+        ]
+    },
+    {
+        "id": "0fa9ad7efb627677",
+        "type": "http request",
+        "z": "a4170142ba245b9c",
+        "name": "Upload Dataset",
+        "method": "PUT",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "{{{host}}}:8000/projects/{{{project_name}}}/dataset?option={{{option}}}&dir_path={{{dir_path}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 560,
+        "y": 260,
+        "wires": [
+            [
+                "2d98c1dd3b65f9ca"
+            ]
+        ]
+    },
+    {
+        "id": "87391bead0cbf68a",
+        "type": "inject",
+        "z": "a4170142ba245b9c",
+        "name": "Config API",
+        "props": [
+            {
+                "p": "host",
+                "v": "MLOPS_BUILD",
+                "vt": "env"
+            },
+            {
+                "p": "dir_path",
+                "v": "/home/chandrakant/codes/COCO_2017/dcaas_dataset",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "c89a118fb8132404"
+            ]
+        ]
+    },
+    {
+        "id": "2d98c1dd3b65f9ca",
+        "type": "switch",
+        "z": "a4170142ba245b9c",
+        "name": "Check Status",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 750,
+        "y": 260,
+        "wires": [
+            [
+                "e8d4d04d4e27ec31"
+            ],
+            [
+                "9c59a4e62a94b217"
+            ]
+        ]
+    },
+    {
+        "id": "e8d4d04d4e27ec31",
+        "type": "debug",
+        "z": "a4170142ba245b9c",
+        "name": "Success",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "9c59a4e62a94b217",
+        "type": "debug",
+        "z": "a4170142ba245b9c",
+        "name": "Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "43c515066ada98b6",
+        "type": "change",
+        "z": "5797107fb9e56730",
+        "name": "Set Params",
+        "rules": [
+            {
+                "t": "set",
+                "p": "model_type",
+                "pt": "msg",
+                "to": "SSD",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "project_name",
+                "pt": "msg",
+                "to": "object_detection",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "46768c11e2e64a7f"
+            ]
+        ]
+    },
+    {
+        "id": "46768c11e2e64a7f",
+        "type": "http request",
+        "z": "5797107fb9e56730",
+        "name": "Start Training",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "{{{host}}}:8000/projects/{{{project_name}}}/train?model_type={{{model_type}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 240,
+        "wires": [
+            [
+                "5d963676727957bc"
+            ]
+        ]
+    },
+    {
+        "id": "b190dcd29462934b",
+        "type": "inject",
+        "z": "5797107fb9e56730",
+        "name": "Config API",
+        "props": [
+            {
+                "p": "host",
+                "v": "MLOPS_BUILD",
+                "vt": "env"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "43c515066ada98b6"
+            ]
+        ]
+    },
+    {
+        "id": "5d963676727957bc",
+        "type": "switch",
+        "z": "5797107fb9e56730",
+        "name": "Check Status",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 770,
+        "y": 240,
+        "wires": [
+            [
+                "c79c1523bb1e51ae"
+            ],
+            [
+                "d2660e09a129d7d6"
+            ]
+        ]
+    },
+    {
+        "id": "c79c1523bb1e51ae",
+        "type": "debug",
+        "z": "5797107fb9e56730",
+        "name": "Success",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "d2660e09a129d7d6",
+        "type": "debug",
+        "z": "5797107fb9e56730",
+        "name": "Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 300,
         "wires": []
     }
 ]
