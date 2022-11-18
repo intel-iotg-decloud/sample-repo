@@ -1,7 +1,7 @@
 {
   "default-target": "portland-north",
   "Updates": {
-    "retail-area-0.1.0": [
+    "retail-area": [
       {
         "area-id": "carts",
         "description": "Shopping Carts",
@@ -220,7 +220,7 @@
         }
       }
     ],
-    "store-traffic-monitoring-0.1.0": {
+    "store-traffic-monitoring": {
       "enable": true,
       "default": "jewellery-feature",
       "retail-area": [
@@ -240,7 +240,7 @@
         "precision": "fp16"
       }
     },
-    "shopper-monitoring-0.1.0": {
+    "shopper-monitoring": {
       "enable": true,
       "default": "jewellery-counter",
       "retail-area": [

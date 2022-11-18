@@ -1,7 +1,7 @@
 {
   "default-target": "reference-city",
   "Updates": {
-    "district-0.1.0": [
+    "district": [
       {
         "district-id": "northeast-cams",
         "description": "Person and Vehicle Cams in the Northeast Coalition of Neighborhoods district",
@@ -87,7 +87,7 @@
         ]
       }
     ],  
-    "traffic-monitoring-0.1.0": {
+    "traffic-monitoring": {
       "enable": true,
       "default": "personvehicle-input",
       "district": [
@@ -98,11 +98,11 @@
         }
       ],
       "person-vehicle-bike-detection-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       }
     },
-    "traffic-classification-0.1.0": {
+    "traffic-classification": {
       "enable": true,
       "default": "vehicle-input",
       "district": [
@@ -113,7 +113,7 @@
         }
       ],
       "detection-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       },
       "classification-application": {
@@ -121,7 +121,7 @@
         "precision": "fp16"
       }
     },
-    "collision-detection-0.1.0": {
+    "collision-detection": {
       "enable": true,
       "default": "vehiclecollision-input",
       "district": [
@@ -132,7 +132,7 @@
         }
       ],
       "detection-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       }
     }    

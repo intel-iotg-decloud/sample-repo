@@ -1,7 +1,7 @@
 {
   "default-target": "portland-southeast",
   "Updates": {
-    "retail-area-0.1.0": [
+    "retail-area": [
       {
         "area-id": "jewellery-counter",
         "description": "Jewellery Counter",
