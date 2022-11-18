@@ -61,7 +61,7 @@ roc-api:
 roc-adapter:
   fullnameOverride: "roc-adapter"
   certManager:
-    enabled: true
+    enabled: false
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-adapter-sra-0.2.x
@@ -109,6 +109,12 @@ topology:
   targets:
     - id: portland-north
       name: Portland North
+    - id: portland-south
+      name: Portland South
+    - id: reference-store
+      name: Reference Store
+      rest_address: configmanager-api-server-srihari-ri.apps.devcloud.awsdevcloud.com
+      rest_port: 80
 
 # Load Initial Mega-Patch
 config:

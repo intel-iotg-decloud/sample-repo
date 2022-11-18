@@ -1,7 +1,7 @@
 {
   "default-target": "reference-store",
   "Updates": {
-    "retail-area-0.1.0": [
+    "retail-area": [
       {
         "area-id": "jewelry-shopper-cams",
         "description": "Shopper Monitoring Cameras in the Jewelry Department",
@@ -102,7 +102,7 @@
         ]
       }
     ],  
-    "store-traffic-monitoring-0.1.0": {
+    "store-traffic-monitoring": {
       "enable": true,
       "default": "faceemotion-input",
       "retail-area": [
@@ -113,11 +113,11 @@
         }
       ],
       "person-detection-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       }
     },
-    "shopper-monitoring-0.1.0": {
+    "shopper-monitoring": {
       "enable": true,
       "default": "headpose-input1",
       "retail-area": [
@@ -128,7 +128,7 @@
         }
       ],
       "face-detection-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       },
       "head-pose-detection-application": {
@@ -136,11 +136,11 @@
         "precision": "fp16"
       },
       "emotion-recognition-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       }
     },
-    "shelf-monitoring-0.1.0": {
+    "shelf-monitoring": {
       "enable": true,
       "default": "objdetection-input",
       "retail-area": [
@@ -151,7 +151,7 @@
         }
       ],
       "object-detection-application": {
-        "device": "gpu",
+        "device": "cpu",
         "precision": "fp16"
       }
     }    
