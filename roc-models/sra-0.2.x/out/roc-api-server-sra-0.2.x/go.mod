@@ -18,7 +18,7 @@ require (
 	github.com/onosproject/onos-lib-go v0.9.3
 	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
 	github.com/spf13/cobra v1.4.0
-	golang.org/x/exp v0.0.0-20221111094246-ab4555d3164f
+	golang.org/x/exp v0.0.0-20221114191408-850992195362
 	google.golang.org/grpc v1.48.0
 )
 

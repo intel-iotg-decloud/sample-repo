@@ -16,12 +16,13 @@ docker run -v $HOME/git/intel-iotg-decloud/sample-repo/roc-models/sra-0.2.x:/con
 ```
 
 ```shell
-docker run -v $HOME/git/intel-iotg-decloud/sample-repo/roc-models:/models \
+docker run \
+-v $HOME/git/intel-iotg-decloud/sample-repo/roc-models:/models \
 -v $HOME/git/intel-iotg-decloud/sample-repo/roc-models/sra-0.2.x/out:/tmp/out \
 -w /models \
 --env DOCKER_REGISTRY=default-route-openshift-image-registry.apps.nex.one-edge.intel.com \
 --env DOCKER_REPOSITORY_BASE=springboard-dev-common/ \
---entrypoint="/usr/local/bin/generate-code.sh" \ 
+--entrypoint="/usr/local/bin/generate-code.sh" \
 default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-cli:0.0.5 \
 -m sra -r 0.2.x -j -o -d
 ```
@@ -42,14 +43,15 @@ docker run -v $HOME/git/intel-iotg-decloud/sample-repo/roc-models/sca-0.1.x:/con
 ```
 
 ```shell
-docker run -v $HOME/git/intel-iotg-decloud/sample-repo/roc-models:/models \
+docker run \
+-v $HOME/git/intel-iotg-decloud/sample-repo/roc-models:/models \
 -v $HOME/git/intel-iotg-decloud/sample-repo/roc-models/sca-0.1.x/out:/tmp/out \
 -w /models \
 --env DOCKER_REGISTRY=default-route-openshift-image-registry.apps.nex.one-edge.intel.com \
 --env DOCKER_REPOSITORY_BASE=springboard-dev-common/ \
---end TARGET_KIND=city \
+--env TARGET_KIND=city \
 --env SAMPLE_TARGET=reference-city \
---env SAMPLE_TARGET_NAME="Referenc City"
+--env SAMPLE_TARGET_NAME="Reference City" \
 --entrypoint="/usr/local/bin/generate-code.sh" \
 default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-cli:0.0.5 \
 -m sca -r 0.1.x -j -o -d

@@ -2,8 +2,8 @@
 # SPDX-FileCopyrightText: (C) 2022 Intel Corporation
 # SPDX-License-Identifier: LicenseRef-Intel
 
-docker build --platform linux/x86_64 -t default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-sca-0.1.x:0.1.0-dev roc-models/sca-0.1.x&
+docker build --platform linux/x86_64 -t default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-sca-0.1.x:0.1.1-dev roc-models/sca-0.1.x&
 
-docker build --platform linux/x86_64 -f roc-models/sca-0.1.x/out/roc-api-server-sca-0.1.x/build/Dockerfile -t default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-api-server-sca-0.1.x:0.1.0-dev roc-models/sca-0.1.x/out/roc-api-server-sca-0.1.x&
+docker build --platform linux/x86_64 -f roc-models/sca-0.1.x/out/roc-api-server-sca-0.1.x/build/Dockerfile -t default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-api-server-sca-0.1.x:0.1.1-dev roc-models/sca-0.1.x/out/roc-api-server-sca-0.1.x&
 
-docker build --platform linux/x86_64 -f roc-models/sca-0.1.x/out/roc-adapter-impl-sca-0.1.x/Dockerfile -t default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-adapter-sca-0.1.x:0.1.0-dev roc-models/sca-0.1.x/out/roc-adapter-impl-sca-0.1.x&
+docker build --platform linux/x86_64 -f roc-models/sca-0.1.x/out/roc-adapter-impl-sca-0.1.x/Dockerfile -t default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-adapter-sca-0.1.x:0.1.1-dev roc-models/sca-0.1.x/out/roc-adapter-impl-sca-0.1.x&

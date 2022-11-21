@@ -21,19 +21,19 @@ import (
 type Elements struct {
     
     
-    ElementShopperMonitoring *ShopperMonitoring `json:"shopper-monitoring,omitempty"`
-    
-    
-    
     ElementStoreTrafficMonitoring *StoreTrafficMonitoring `json:"store-traffic-monitoring,omitempty"`
     
     
     
-    ElementRetailArea *RetailAreaList `json:"retail-area,omitempty"`
-    
-    
-    
     ElementShelfMonitoring *ShelfMonitoring `json:"shelf-monitoring,omitempty"`
+    
+    
+    
+    ElementShopperMonitoring *ShopperMonitoring `json:"shopper-monitoring,omitempty"`
+    
+    
+    
+    ElementRetailArea *RetailAreaList `json:"retail-area,omitempty"`
     
     
 }
@@ -191,22 +191,6 @@ func encodeToGnmiElements(elements *Elements, target string, forDelete bool) ([]
     
     
     
-    if elements.ElementShopperMonitoring != nil {
-        
-        
-        
-        ModelUpdates, err := EncodeToGnmiShopperMonitoring(elements.ElementShopperMonitoring, false, forDelete,
-        			StoreId(target), "/shopper-monitoring")
-        if err != nil {
-            return nil, fmt.Errorf("EncodeToGnmiShopperMonitoring %s", err)
-        }
-        updates = append(updates, ModelUpdates...)
-    }
-    
-    
-    
-    
-    
     if elements.ElementStoreTrafficMonitoring != nil {
         
         
@@ -215,6 +199,38 @@ func encodeToGnmiElements(elements *Elements, target string, forDelete bool) ([]
         			StoreId(target), "/store-traffic-monitoring")
         if err != nil {
             return nil, fmt.Errorf("EncodeToGnmiStoreTrafficMonitoring %s", err)
+        }
+        updates = append(updates, ModelUpdates...)
+    }
+    
+    
+    
+    
+    
+    if elements.ElementShelfMonitoring != nil {
+        
+        
+        
+        ModelUpdates, err := EncodeToGnmiShelfMonitoring(elements.ElementShelfMonitoring, false, forDelete,
+        			StoreId(target), "/shelf-monitoring")
+        if err != nil {
+            return nil, fmt.Errorf("EncodeToGnmiShelfMonitoring %s", err)
+        }
+        updates = append(updates, ModelUpdates...)
+    }
+    
+    
+    
+    
+    
+    if elements.ElementShopperMonitoring != nil {
+        
+        
+        
+        ModelUpdates, err := EncodeToGnmiShopperMonitoring(elements.ElementShopperMonitoring, false, forDelete,
+        			StoreId(target), "/shopper-monitoring")
+        if err != nil {
+            return nil, fmt.Errorf("EncodeToGnmiShopperMonitoring %s", err)
         }
         updates = append(updates, ModelUpdates...)
     }
@@ -239,22 +255,6 @@ func encodeToGnmiElements(elements *Elements, target string, forDelete bool) ([]
             updates = append(updates, ModelUpdates...)
         }
     }
-    
-    
-    
-    
-    if elements.ElementShelfMonitoring != nil {
-        
-        
-        
-        ModelUpdates, err := EncodeToGnmiShelfMonitoring(elements.ElementShelfMonitoring, false, forDelete,
-        			StoreId(target), "/shelf-monitoring")
-        if err != nil {
-            return nil, fmt.Errorf("EncodeToGnmiShelfMonitoring %s", err)
-        }
-        updates = append(updates, ModelUpdates...)
-    }
-    
     
     
 

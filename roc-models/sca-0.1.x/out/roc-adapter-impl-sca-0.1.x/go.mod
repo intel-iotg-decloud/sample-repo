@@ -102,3 +102,7 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
+
+replace github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sca-0.1.x => /models/sca-0.1.x
+
+replace github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter => /local-cache/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter

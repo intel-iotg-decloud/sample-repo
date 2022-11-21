@@ -52,7 +52,7 @@ roc-api:
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-api-server-sca-0.1.x
-    tag: 0.1.0-dev
+    tag: 0.1.1-dev
     pullPolicy: IfNotPresent
 # for GUI development only - comment out for production
 #  corsOrigins:
@@ -65,7 +65,7 @@ roc-adapter:
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-adapter-sca-0.1.x
-    tag: 0.1.0-dev
+    tag: 0.1.1-dev
     pullPolicy: IfNotPresent
 
 roc-gui:
@@ -90,7 +90,7 @@ onos-config:
       enabled: false
   modelPlugins:
     - name: sca-0-1-x
-      image: default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-sca-0.1.x:0.1.0-dev
+      image: default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-sca-0.1.x:0.1.1-dev
       pullPolicy: IfNotPresent
       endpoint: localhost
       port: 5152
