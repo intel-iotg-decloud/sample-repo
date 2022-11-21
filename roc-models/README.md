@@ -71,3 +71,10 @@ helm -n sca-roc install roc-sca ./rocaas-umbrella -f ~/git/intel-iotg-decloud/sa
 > Adjust accordingly for your checked out folder and the RI model you are generating.
 
 See https://github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.rocaas-tools/blob/main/rocaas-cli/build/README.md for more details
+
+## Pushing to alternative registries
+The `./roc-models/docker_tag_models.sh` can be used to tag and push to alternate Docker registries
+
+> Example:
+> 
+> `./roc-models/docker_tag_models.sh -g amr-registry.caas.intel.com/one-intel-edge/ -r roc/`
