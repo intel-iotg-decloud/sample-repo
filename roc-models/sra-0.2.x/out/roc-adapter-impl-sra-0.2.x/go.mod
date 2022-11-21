@@ -8,9 +8,9 @@ go 1.18
 require (
 	github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter v0.0.7
 	github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sra-0.2.x v0.2.3
-	github.com/onosproject/onos-api/go v0.9.46
+	github.com/onosproject/onos-api/go v0.9.43
 	github.com/onosproject/onos-lib-go v0.9.3
-	github.com/openconfig/ygot v0.24.4
+	github.com/openconfig/ygot v0.24.1
 	github.com/stretchr/testify v1.7.1
 
 )
@@ -102,7 +102,3 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
-
-replace github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sra-0.2.x => /models/sra-0.2.x
-
-replace github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter => /local-cache/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter

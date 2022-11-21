@@ -783,6 +783,10 @@ github.com/imdario/mergo v0.3.10/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH
 github.com/imdario/mergo v0.3.11/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH0dnCYA=
 github.com/imdario/mergo v0.3.12/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH0dnCYA=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter v0.0.7 h1:iEiK3uUXyhM4csrVYu+xx6SrbpdAEyACAa2JXvbYH5w=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter v0.0.7/go.mod h1:mwCm4Xs9/SPexiHqyYn1niXEgS1bkxjSoA9d49FHYh4=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sra-0.2.x v0.2.3 h1:oQ1BgQBhOT+e73NPv3VhlvtKvVaWe3n8Wxjhj5L7Spw=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sra-0.2.x v0.2.3/go.mod h1:T4djnwFIzPP/fu0lgEihpaZEEjPhw6SX/pyRbH01J8M=
 github.com/j-keck/arping v0.0.0-20160618110441-2cf9dc699c56/go.mod h1:ymszkNOg6tORTn+6F6j+Jc8TOr5osrynvN6ivFWZ2GA=
 github.com/jcmturner/aescts/v2 v2.0.0 h1:9YKLH6ey7H4eDBXW8khjYslgyqG2xZikXP0EQFKrle8=
 github.com/jcmturner/aescts/v2 v2.0.0/go.mod h1:AiaICIRyfYg35RUkr8yESTqvSy7csK90qZ5xfvvsoNs=
@@ -968,8 +972,8 @@ github.com/onosproject/aether-models/models/aether-2.1.x v0.0.0-20220404214232-1
 github.com/onosproject/analytics/pkg/kafkaClient v0.0.0-20220503194729-1cd33b3a8dc8 h1:lLhrRBa/YAPemlmYbYhweqPdXGOGZI5FolB9+tuSVoU=
 github.com/onosproject/analytics/pkg/kafkaClient v0.0.0-20220503194729-1cd33b3a8dc8/go.mod h1:12BibqMcMecpY/3DBaC7zs8VzI+XK5++TfVaj1MtmVs=
 github.com/onosproject/config-models v0.9.24/go.mod h1:7SwH/WcftMZ6FLEmf4B1BDdx7xJH6DA/OZcBb9J31XE=
-github.com/onosproject/config-models v0.10.40 h1:HyPLXpsUBrmNBXUYlSgu6ZdQ7Erd1VfhWwRWQV+3uQ8=
-github.com/onosproject/config-models v0.10.40/go.mod h1:TCi+bxdyhI+75lpXp4ST1xHgTSS3cHOzohu3IDAUvJI=
+github.com/onosproject/config-models v0.10.36 h1:aR4LSGcNCmDfk/FFk0f8PR4nbOT897xx2iNWnan4HZk=
+github.com/onosproject/config-models v0.10.36/go.mod h1:9+TFGeewP1kBjFbhtmTDFDfOJwM6593gjeWBnakcu2M=
 github.com/onosproject/config-models/modelplugin/testdevice-2.0.0 v0.8.8 h1:sPeOWnYPDK0nIC7QnjOdJS/U+OAtxc5ulDW0ZbCJVMs=
 github.com/onosproject/config-models/modelplugin/testdevice-2.0.0 v0.8.8/go.mod h1:znr5lX3YnyyNstMb0D1fHH0yjMpJ3tu9LP9+qr6puMI=
 github.com/onosproject/helmit v0.6.8/go.mod h1:EorNGSNGWojXGxBEuiNmPScae+R2C5WYfg/13gKEPLw=
@@ -980,8 +984,8 @@ github.com/onosproject/onos-api/go v0.8.10/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgS
 github.com/onosproject/onos-api/go v0.8.54/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
 github.com/onosproject/onos-api/go v0.9.0/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
 github.com/onosproject/onos-api/go v0.9.8/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
-github.com/onosproject/onos-api/go v0.9.46 h1:7Z5+RWcEFW2k0zVeAcov8jCg7Hc7kf4GQl1bFzaSlUw=
-github.com/onosproject/onos-api/go v0.9.46/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
+github.com/onosproject/onos-api/go v0.9.43 h1:jlNdFL/VcsHg6zPPygcc9/kT16ZBhfaFQ9Hae65Cj6Q=
+github.com/onosproject/onos-api/go v0.9.43/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
 github.com/onosproject/onos-config v0.10.23/go.mod h1:qIxCTO5PVTjCvE8U/QWvnCZXagggq79J/vYyHsTARV8=
 github.com/onosproject/onos-lib-go v0.8.1/go.mod h1:1klcUPfLoXPVu4fzM/sYi1V3Pggm2NRbY2fTzG2W1HY=
 github.com/onosproject/onos-lib-go v0.8.13/go.mod h1:rWssBjfhahhHQy4wW5PBUtjTPwJlXAixHxgfq/3PO3E=
@@ -1031,8 +1035,8 @@ github.com/openconfig/ygot v0.10.4/go.mod h1:oCQNdXnv7dWc8scTDgoFkauv1wwplJn5Hsp
 github.com/openconfig/ygot v0.12.0/go.mod h1:kJN0yCXIH07dOXvNBEFm3XxXdnDD5NI6K99tnD5x49c=
 github.com/openconfig/ygot v0.12.4/go.mod h1:kJN0yCXIH07dOXvNBEFm3XxXdnDD5NI6K99tnD5x49c=
 github.com/openconfig/ygot v0.14.0/go.mod h1:ndSA5yfRg6cXqewTWaIbemJFoPbZUPpDt7V0wMU/O9A=
-github.com/openconfig/ygot v0.24.4 h1:/7uue5le3qQChGSST1eJx7J1u2Jh2WQ5ADJGvOqiqb4=
-github.com/openconfig/ygot v0.24.4/go.mod h1:6Ddz8kyEjK/c1e+rbShOTYLZdQmuk5ZJj6SJuwZp8u4=
+github.com/openconfig/ygot v0.24.1 h1:LOz6c++/zoJBJgqSGiV13Jk6rzlF3NiWkzBKi2zHtcA=
+github.com/openconfig/ygot v0.24.1/go.mod h1:6Ddz8kyEjK/c1e+rbShOTYLZdQmuk5ZJj6SJuwZp8u4=
 github.com/opencontainers/go-digest v0.0.0-20170106003457-a6d0ee40d420/go.mod h1:cMLVZDEM3+U2I4VmLI6N8jQYUd2OVphdqWwCJHrFt2s=
 github.com/opencontainers/go-digest v0.0.0-20180430190053-c9281466c8b2/go.mod h1:cMLVZDEM3+U2I4VmLI6N8jQYUd2OVphdqWwCJHrFt2s=
 github.com/opencontainers/go-digest v1.0.0-rc1/go.mod h1:cMLVZDEM3+U2I4VmLI6N8jQYUd2OVphdqWwCJHrFt2s=

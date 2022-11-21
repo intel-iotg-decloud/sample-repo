@@ -782,6 +782,10 @@ github.com/imdario/mergo v0.3.10/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH
 github.com/imdario/mergo v0.3.11/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH0dnCYA=
 github.com/imdario/mergo v0.3.12/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH0dnCYA=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter v0.0.7 h1:iEiK3uUXyhM4csrVYu+xx6SrbpdAEyACAa2JXvbYH5w=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter v0.0.7/go.mod h1:mwCm4Xs9/SPexiHqyYn1niXEgS1bkxjSoA9d49FHYh4=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sca-0.1.x v0.1.0 h1:eGHoNWbuVJ1wF6WNdC+dGM40QEybWqV7r+02mNEI8OE=
+github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sca-0.1.x v0.1.0/go.mod h1:VwLeROEb4nitQRT+Gpb/UcW8jUg7t50KSkoBuz+0NwM=
 github.com/j-keck/arping v0.0.0-20160618110441-2cf9dc699c56/go.mod h1:ymszkNOg6tORTn+6F6j+Jc8TOr5osrynvN6ivFWZ2GA=
 github.com/jcmturner/aescts/v2 v2.0.0 h1:9YKLH6ey7H4eDBXW8khjYslgyqG2xZikXP0EQFKrle8=
 github.com/jcmturner/aescts/v2 v2.0.0/go.mod h1:AiaICIRyfYg35RUkr8yESTqvSy7csK90qZ5xfvvsoNs=

@@ -63,6 +63,33 @@ func (ss *SRASyncStep) SynchronizeModels() {
 	ss.Config.Models = ss.StaticConfig.Models
 }
 
+// CreateNodeNodelIfNotExist creates an entry for an AI/ML model in the model list if
+// it does not already exist.
+func (ss *SRASyncStep) CreateNodeModelIfNotExist(nodeName string, modelName string) error {
+	if ss.Config.Models == nil {
+		// Catch if something is wrong with the static json
+		return fmt.Errorf("ModelList should not be null")
+	}
+
+	// Is the node part of the model list
+	nodeModelList, okay := ss.Config.Models[nodeName]
+	if !okay {
+		nodeModelList := modelList{}
+		ss.Config.Models[nodeName] = nodeModelList
+	}
+
+	for _, model := range nodeModelList {
+		if model.Name == modelName {
+			// already exists, nothing to do here.
+			return nil
+		}
+	}
+	defn := modelDefinition{Name: modelName}
+	ss.Config.Models[nodeName] = append(nodeModelList, defn)
+
+	return nil
+}
+
 func (ss *SRASyncStep) SynchronizePipeline(srcPipeline *pipelineDefinition) error {
 	// Copy pipeline attributes from source JSON
 	pipeline := pipelineDefinition{
@@ -91,12 +118,16 @@ func (ss *SRASyncStep) SynchronizePipeline(srcPipeline *pipelineDefinition) erro
 		}
 		if model != nil {
 			pipeline.Nodes[k].Model = *model
+			err = ss.CreateNodeModelIfNotExist(node.Name, *model)
+			if err != nil {
+				return err
+			}
 		}
 		if precision != nil {
-			pipeline.Nodes[k].Precision = *precision
+			pipeline.Nodes[k].Precision = strings.ToUpper(*precision)
 		}
 		if device != nil {
-			pipeline.Nodes[k].Device = *device
+			pipeline.Nodes[k].Device = strings.ToUpper(*device)
 		}
 	}
 

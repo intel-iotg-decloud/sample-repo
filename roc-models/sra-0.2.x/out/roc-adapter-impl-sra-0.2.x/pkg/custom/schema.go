@@ -10,8 +10,8 @@ type boolString string // "True" or "False"
 
 type modelDefinition struct {
 	Name        string `json:"name"`
-	Description string `json:"modelDescription"`
-	Size        string `json:"modelSize"`
+	Description string `json:"modelDescription,omitempty"`
+	Size        string `json:"modelSize,omitempty"`
 }
 
 type modelList []modelDefinition
