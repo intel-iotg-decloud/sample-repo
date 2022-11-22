@@ -3,9 +3,9 @@
   "Updates": {
     "district": [
       {
-        "district-id": "northeast-cams",
-        "description": "Person and Vehicle Cams in the Northeast Coalition of Neighborhoods district",
-        "display-name": "Northeast Cameras",
+        "district-id": "weststadt-cams",
+        "description": "Person and Vehicle Cams in the Weststadt Borough",
+        "display-name": "Weststadt Cameras",
         "location": {
           "coordinate-system": "grid-top-left",
           "x": 150,
@@ -31,9 +31,9 @@
         ]
       },
       {
-        "district-id": "southeast-cams",
-        "description": "Vehicle Cameras in the Southeast Uplight Neightborhood Program district",
-        "display-name": "Southeast Cameras",
+        "district-id": "nordweststadt-cams",
+        "description": "Vehicle Cameras in the Nordweststadt Borough",
+        "display-name": "Nordweststadt Cameras",
         "location": {
           "coordinate-system": "grid-top-left",
           "x": 150,
@@ -59,9 +59,9 @@
         ]
       },
       {
-        "district-id": "central-cams",
-        "description": "Collision Cameras in the Central Northeast Neighbords district",
-        "display-name": "Central Cameras",
+        "district-id": "oststadt-cams",
+        "description": "Collision Cameras in the Oststadt Borough",
+        "display-name": "Oststadt Cameras",
         "location": {
           "coordinate-system": "grid-top-left",
           "x": 150,
@@ -86,18 +86,19 @@
           }
         ]
       }
-    ],  
+    ],
     "traffic-monitoring": {
       "enable": true,
       "default": "personvehicle-input",
       "district": [
         {
-          "district-ref": "northeast-cams",
+          "district-ref": "weststadt-cams",
           "enabled": true,
           "stream-count": 1
         }
       ],
       "person-vehicle-bike-detection-application": {
+        "model": "person-vehicle-bike-detection-crossroad-0078",
         "device": "cpu",
         "precision": "fp16"
       }
@@ -107,16 +108,18 @@
       "default": "vehicle-input",
       "district": [
         {
-          "district-ref": "southeast-cams",
+          "district-ref": "nordweststadt-cams",
           "enabled": true,
           "stream-count": 1
         }
       ],
       "detection-application": {
+        "model": "vehicle-detection-0202",
         "device": "cpu",
         "precision": "fp16"
       },
       "classification-application": {
+        "model": "vehicle-attributes-recognition-barrier-0039",
         "device": "cpu",
         "precision": "fp16"
       }
@@ -126,16 +129,17 @@
       "default": "vehiclecollision-input",
       "district": [
         {
-          "district-ref": "central-cams",
+          "district-ref": "oststadt-cams",
           "enabled": true,
           "stream-count": 1
         }
       ],
       "detection-application": {
+        "model": "vehicle-detection-0202",
         "device": "cpu",
         "precision": "fp16"
       }
-    }    
+    }
   },
   "Deletes": {},
   "Extensions": {
