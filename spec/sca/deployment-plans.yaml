@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=/tmp/schemas/plan.yaml#/CASpecDeploymentPlans
+---
+specSchema: "CompositeApp_Plans"
+schemaVersion: "0.1"
+deploymentPlans:
+  # Deploys both ROC and SRA on the same gpu-optimized cluster
+  - planName: Single-Site
+    appDeploymentPlans:
+      - appName: sca-evam-helm
+        logicalCluster: sca-gpu-optimized-edge
+      - appName: rocaas-umbrella
+        logicalCluster: sca-gpu-optimized-edge
+  # Deploys ROC on central-cloud and SRA on gpu-optimized-edge cluster
+  - planName: Distributed
+    appDeploymentPlans:
+      - appName: sca-evam-helm
+        logicalCluster: sca-gpu-optimized-edge
+      - appName: rocaas-umbrella
+        logicalCluster: sca-generic-edge

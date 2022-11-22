@@ -1,0 +1,240 @@
+# yaml-language-server: $schema=/tmp/schemas/profile.yaml#/CASpecCompositeProfiles
+---
+specSchema: "CompositeApp_Profiles"
+schemaVersion: "0.1"
+compositeProfiles:
+  - profileName: Production
+    appProfiles:
+      - appName: sca-evam-helm
+        valuesFile:
+          grafana:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_grafana
+          server:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_server
+          scaevam:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_scaevam
+          configmanager:
+            serviceAnnotations:
+              external-dns.alpha.kubernetes.io/hostname: config.sca.karlsruhe.city.maestro.intel.com
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_configmanager
+            sidecarImage:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_configmanager_api_server
+            service:
+              nodePort: 32502
+          viewer:
+            serviceAnnotations:
+              external-dns.alpha.kubernetes.io/hostname: viewer.sca.karlsruhe.city.maestro.intel.com
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_viewer
+            service:
+              nodePort: 32505
+          person-vehicle-bike-postprocess:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_person_vehicle_bike_postprocess
+          vehicle-classification-postprocess:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_vehicle_classification_postprocess
+          vehicle-postprocess:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/scaevam_vehicle_postprocess
+
+      - appName: rocaas-umbrella
+        valuesFile:
+          onos-config:
+            modelPlugins:
+              - name: sca-0-1
+                image: harbor.tenant01.platform.site3.ka.maestro.intel.com/roc/sca-0.1.x:demo3
+                pullPolicy: IfNotPresent
+                endpoint: localhost
+                port: 5152
+          roc-api:
+            image:
+              registry: harbor.tenant01.platform.site3.ka.maestro.intel.com
+              repository: roc/roc-api-sca-0.1.x
+              tag: demo3
+          roc-adapter:
+            fullnameOverride: roc-adapter-sca
+            image:
+              registry: harbor.tenant01.platform.site3.ka.maestro.intel.com
+              repository: roc/roc-adapter-sca_0_1_x
+              pullPolicy: Always
+              tag: demo3
+          roc-gui:
+            image:
+              registry: harbor.tenant01.platform.site3.ka.maestro.intel.com
+              repository: roc/roc-ui
+              tag: demo3
+            serviceAnnotations:
+              external-dns.alpha.kubernetes.io/hostname: roc.sca.karlsruhe.city.maestro.intel.com
+            service:
+              nodePort: 32507
+              type: NodePort
+          topology:
+            kind: store
+            adapter:
+              address: roc-adapter-sca:5150
+              version: 0.1.x
+              type: sca
+            targets:
+              - id: reference-city
+                name: Reference Implementation City
+                lat: 45.1
+                long: -122.1
+                rest_address: configmanager-api-server:5050
+                rest_port: 0
+          config:
+            megaPatch: |-
+              {
+                "default-target": "reference-city",
+                "Updates": {
+                  "district": [
+                    {
+                      "district-id": "weststadt-cams",
+                      "description": "Person and Vehicle Cams in the Weststadt Borough",
+                      "display-name": "Weststadt Cameras",
+                      "location": {
+                        "coordinate-system": "grid-top-left",
+                        "x": 150,
+                        "y": 60
+                      },
+                      "source": [
+                        {
+                          "source-id": "personvehicle-input",
+                          "display-name": "personvehicle-input",
+                          "image": "images/floor-plan-jewellery-counter-camera.svg",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 150,
+                            "y": 60,
+                            "orientation-x": 30,
+                            "z": 3
+                          },
+                          "video": {
+                            "path": "person-bicycle-car-detection.mp4",
+                            "source-type": "sample"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "district-id": "nordweststadt-cams",
+                      "description": "Vehicle Cameras in the Nordweststadt Borough",
+                      "display-name": "Nordweststadt Cameras",
+                      "location": {
+                        "coordinate-system": "grid-top-left",
+                        "x": 150,
+                        "y": 60
+                      },
+                      "source": [
+                        {
+                          "source-id": "vehicle-input",
+                          "display-name": "vehicle-input",
+                          "image": "images/floor-plan-jewellery-counter-camera.svg",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 150,
+                            "y": 60,
+                            "orientation-x": 30,
+                            "z": 3
+                          },
+                          "video": {
+                            "path": "car-detection.mp4",
+                            "source-type": "sample"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "district-id": "oststadt-cams",
+                      "description": "Collision Cameras in the Oststadt Borough",
+                      "display-name": "Oststadt Cameras",
+                      "location": {
+                        "coordinate-system": "grid-top-left",
+                        "x": 150,
+                        "y": 60
+                      },
+                      "source": [
+                        {
+                          "source-id": "vehiclecollision-input",
+                          "display-name": "vehiclecollision-input",
+                          "image": "images/floor-plan-jewellery-counter-camera.svg",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 150,
+                            "y": 60,
+                            "orientation-x": 30,
+                            "z": 3
+                          },
+                          "video": {
+                            "path": "accident.avi",
+                            "source-type": "sample"
+                          }
+                        }
+                      ]
+                    }
+                  ],  
+                  "traffic-monitoring": {
+                    "enable": true,
+                    "default": "personvehicle-input",
+                    "district": [
+                      {
+                        "district-ref": "weststadt-cams",
+                        "enabled": true,
+                        "stream-count": 1
+                      }
+                    ],
+                    "person-vehicle-bike-detection-application": {
+                      "model": "person-vehicle-bike-detection-crossroad-0078",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    }
+                  },
+                  "traffic-classification": {
+                    "enable": true,
+                    "default": "vehicle-input",
+                    "district": [
+                      {
+                        "district-ref": "nordweststadt-cams",
+                        "enabled": true,
+                        "stream-count": 1
+                      }
+                    ],
+                    "detection-application": {
+                      "model": "vehicle-detection-0202",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    },
+                    "classification-application": {
+                      "model": "vehicle-attributes-recognition-barrier-0039",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    }
+                  },
+                  "collision-detection": {
+                    "enable": true,
+                    "default": "vehiclecollision-input",
+                    "district": [
+                      {
+                        "district-ref": "oststadt-cams",
+                        "enabled": true,
+                        "stream-count": 1
+                      }
+                    ],
+                    "detection-application": {
+                      "model": "vehicle-detection-0202",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    }
+                  }    
+                },
+                "Deletes": {},
+                "Extensions": {
+                  "transaction-strategy-111": 0,
+                  "model-version-101": "0.1.0",
+                  "model-type-102": "Sca"
+                }
+              }          

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=/tmp/schemas/cluster.yaml#/CASpecLogicalClusters
+---
+specSchema: "CompositeApp_Clusters"
+schemaVersion: "0.1"
+logicalClusters:
+  - logicalClusterName: sca-gpu-optimized-edge
+    clusterSpec:
+      clusterLabels: ["colo"]
+      clusterType:
+        type: vm
+        count: 1
+      slaRequirements:
+        - requirement: camlatency
+          type: LATENCY_RTT
+          value: 41ms
+          parameter: karlsruhe-erleben.de
+      infraRequirements:
+        cpu:
+          architecture: x86_64
+          cores: 12
+        memory:
+          size: 16GB
+        gpu: [
+          {
+            vendor: Intel
+          }
+        ]
+  - logicalClusterName: sca-generic-edge
+    clusterSpec:
+      clusterLabels: ["colo"]
+      clusterType:
+        type: vm
+        count: 1

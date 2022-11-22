@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=/tmp/schemas/composition.yaml#/CASpecComposition
+---
+specSchema: "CompositeApp_Composition"
+schemaVersion: "0.1"
+version: "0.1.18"
+name: "smart-city-analytics"
+
+catalog:
+  icon: "null"
+  thumbnail: "/assets/sca.png"
+  description: "Smart City Analytics is an application that processes video streams from road intersections to detect person,vehicle or bike, classify the vehicles, and detect collision on roads. "
+  tags: [ "ai", "ml", "openvino" ]
+
+bundles:
+   logicalClusters: "clusters.yaml"
+   compositeProfiles: "profiles.yaml"
+   deploymentPlans: "deployment-plans.yaml"
+   applications: "applications.yaml"
+
+defaultCompositeProfile: "Production"
+defaultDeploymentPlan: "Single-Site"
+
+applications: ["sca-evam-helm", "rocaas-umbrella"]
+compositeProfiles: ["Production"]
+deploymentPlans: ["Single-Site", "Distributed"]
+logicalClusters: ["sca-gpu-optimized-edge", "sca-generic-edge"]
+
+endpoints:
+  - serviceUrl: http://roc.sca.karlsruhe.city.maestro.intel.com:30003/
+    serviceName: sca-roc
+  - serviceUrl: http://viewer.sca.karlsruhe.city.maestro.intel.com:30003/
+    serviceName: sca-viewer
