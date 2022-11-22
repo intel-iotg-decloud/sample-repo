@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=/tmp/schemas/application.yaml#/CASpecApplications
+---
+specSchema: "CompositeApp_Applications"
+schemaVersion: "0.1"
+applications:
+  - appName: sra-evam-helm                    # EMCO expects this to be the same as chart name
+    source:
+      repo:
+        repoUrl: "https://harbor.tenant01.platform.site3.ka.maestro.intel.com/chartrepo/oie"
+        chartName: "sra-evam-helm"
+        version: "0.1.0-demo3"
+  - appName: rocaas-umbrella                  # EMCO expects this to be the same as chart name
+    source:
+      repo:
+        repoUrl: "https://harbor.tenant01.platform.site3.ka.maestro.intel.com/chartrepo/roc"
+        chartName: "rocaas-umbrella"
+        version: "0.1.3-demo3"
