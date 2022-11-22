@@ -57,12 +57,22 @@ default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-d
 -m sca -r 0.1.x -j -o -d
 ```
 
-Deploy with:
+## ROC prerequisites
+
+```shell
+helm repo add --username <your intel login> one-intel-edge https://amr-registry.caas.intel.com/chartrepo/one-intel-edge
+```
+
+```shell
+helm -n kube-system install rocaas-prereqs one-intel-edge/rocaas-prereqs
+```
+
+## ROC as a Service Umbrella Chart
+
+Deploy SCA with:
 ```shell
 kubectl create namespace sca-roc
-cd ~/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.rocaas-charts
-make deps
-helm -n sca-roc install roc-sca ./rocaas-umbrella -f ~/git/intel-iotg-decloud/sample-repo/roc-models/sca-0.1.x/deployment/values.yaml --set-file config.megaPatch=~/git/intel-iotg-decloud/sample-repo/roc-models/sca-0.1.x/examples/mega-ri.json --set roc-gui.service.nodePort=30003
+helm -n sca-roc install roc-sca one-intel-edge/rocaas-umbrella -f ~/git/intel-iotg-decloud/sample-repo/roc-models/sca-0.1.x/deployment/values.yaml --set-file config.megaPatch=~/git/intel-iotg-decloud/sample-repo/roc-models/sca-0.1.x/examples/mega-ri.json --set roc-gui.service.nodePort=30003
 ```
 
 > Here we set the ROC GUI port to 30003 - only needed if deploying at the same time as SRA, to avoid clashing node ports. 
