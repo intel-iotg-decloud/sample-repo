@@ -1,0 +1,260 @@
+# yaml-language-server: $schema=/tmp/schemas/profile.yaml#/CASpecCompositeProfiles
+---
+specSchema: "CompositeApp_Profiles"
+schemaVersion: "0.1"
+compositeProfiles:
+  - profileName: Production
+    appProfiles:
+      - appName: sra-evam-helm
+        valuesFile:
+          grafana:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_grafana
+          server:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_server
+          sraevam:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_sraevam
+          trafficpostprocess:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_trafficpostprocess
+          configmanager:
+            serviceAnnotations:
+              external-dns.alpha.kubernetes.io/hostname: config.sra.xmart.maestro.intel.com
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_configmanager
+            sidecarImage:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_configmanager_api_server
+            service:
+              nodePort: 32502
+          viewer:
+            serviceAnnotations:
+              external-dns.alpha.kubernetes.io/hostname: viewer.sra.xmart.maestro.intel.com
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_viewer
+            service:
+              nodePort: 32505
+          shopperpostprocess:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_shopperpostprocess
+          shelfpostprocess:
+            image:
+              repository: harbor.tenant01.platform.site3.ka.maestro.intel.com/oie/oneedge/springboard/sraevam_shelfpostprocess
+
+      - appName: rocaas-umbrella
+        valuesFile:
+          onos-config:
+            modelPlugins:
+              - name: sra-0-2
+                image: harbor.tenant01.platform.site3.ka.maestro.intel.com/roc/sra-0.2.x:demo3
+                pullPolicy: IfNotPresent
+                endpoint: localhost
+                port: 5152
+          roc-api:
+            image:
+              registry: harbor.tenant01.platform.site3.ka.maestro.intel.com
+              repository: roc/roc-api-sra-0.2.x
+              tag: demo3
+          roc-adapter:
+            fullnameOverride: roc-adapter-sra
+            image:
+              registry: harbor.tenant01.platform.site3.ka.maestro.intel.com
+              repository: roc/roc-adapter-sra_0_2_x
+              pullPolicy: Always
+              tag: demo3
+          roc-gui:
+            image:
+              registry: harbor.tenant01.platform.site3.ka.maestro.intel.com
+              repository: roc/roc-ui
+              tag: demo3                             
+            serviceAnnotations:
+              external-dns.alpha.kubernetes.io/hostname: roc.sra.xmart.maestro.intel.com
+            service:
+              nodePort: 32507
+              type: NodePort
+          topology:
+            kind: store
+            adapter:
+              address: roc-adapter-sra:5150
+              version: 0.2.x
+              type: sra
+            targets:
+              - id: reference-store
+                name: Reference Implementation Store
+                lat: 45.1
+                long: -122.1
+                rest_address: configmanager-api-server:5050
+                rest_port: 0              
+          config:
+            megaPatch: |-
+              {
+                "default-target": "reference-store",
+                "Updates": {
+                  "retail-area": [
+                    {
+                      "area-id": "jewelry-shopper-cams",
+                      "description": "Shopper Monitoring Cameras in the Jewelry Department",
+                      "display-name": "Jewelry Department Shopper Cameras",
+                      "location": {
+                        "coordinate-system": "grid-top-left",
+                        "x": 150,
+                        "y": 60
+                      },
+                      "source": [
+                        {
+                          "source-id": "headpose-input1",
+                          "display-name": "headpose-input1",
+                          "image": "images/floor-plan-jewellery-counter-camera.svg",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 150,
+                            "y": 60,
+                            "orientation-x": 30,
+                            "z": 3
+                          },
+                          "video": {
+                            "path": "head-pose-face-detection-female-and-male.mp4",
+                            "source-type": "sample"
+                          }
+                        },
+                        {
+                          "source-id": "headpose-input2",
+                          "display-name": "headpose-input2",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 155,
+                            "y": 70,
+                            "orientation-x": 180,
+                            "z": 2
+                          },
+                          "video": {
+                            "path": "head-pose-face-detection-female.mp4",
+                            "source-type": "sample"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "area-id": "jewelry-traffic-cams",
+                      "description": "Traffic Monitoring Cameras in the Jewelry Department",
+                      "display-name": "Jewelry Department Traffic Cameras",
+                      "location": {
+                        "coordinate-system": "grid-top-left",
+                        "x": 150,
+                        "y": 60
+                      },
+                      "source": [
+                        {
+                          "source-id": "faceemotion-input",
+                          "display-name": "faceemotion-input",
+                          "image": "images/floor-plan-jewellery-counter-camera.svg",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 150,
+                            "y": 60,
+                            "orientation-x": 30,
+                            "z": 3
+                          },
+                          "video": {
+                            "path": "face-demographics-walking.mp4",
+                            "source-type": "sample"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "area-id": "beverage-shelf-cams",
+                      "description": "Shelf Monitoring Cameras in the Beverage Department",
+                      "display-name": "Beverage Department Shelf Cameras",
+                      "location": {
+                        "coordinate-system": "grid-top-left",
+                        "x": 150,
+                        "y": 60
+                      },
+                      "source": [
+                        {
+                          "source-id": "objdetection-input",
+                          "display-name": "objdetection-input",
+                          "image": "images/floor-plan-jewellery-counter-camera.svg",
+                          "location": {
+                            "coordinate-system": "grid-top-left",
+                            "x": 150,
+                            "y": 60,
+                            "orientation-x": 30,
+                            "z": 3
+                          },
+                          "video": {
+                            "path": "bottle-detection.mp4",
+                            "source-type": "sample"
+                          }
+                        }
+                      ]
+                    }
+                  ],  
+                  "store-traffic-monitoring": {
+                    "enable": true,
+                    "default": "faceemotion-input",
+                    "retail-area": [
+                      {
+                        "area-ref": "jewelry-traffic-cams",
+                        "enabled": true,
+                        "stream-count": 1
+                      }
+                    ],
+                    "person-detection-application": {
+                      "model": "person-detection-retail-0013",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    }
+                  },
+                  "shopper-monitoring": {
+                    "enable": true,
+                    "default": "headpose-input1",
+                    "retail-area": [
+                      {
+                        "area-ref": "jewelry-shopper-cams",
+                        "enabled": true,
+                        "stream-count": 1
+                      }
+                    ],
+                    "face-detection-application": {
+                      "model": "face-detection-adas-0001",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    },
+                    "head-pose-detection-application": {
+                      "model": "head-pose-estimation-adas-0001",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    },
+                    "emotion-recognition-application": {
+                      "model": "emotions-recognition-retail-0003",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    }
+                  },
+                  "shelf-monitoring": {
+                    "enable": true,
+                    "default": "objdetection-input",
+                    "retail-area": [
+                      {
+                        "area-ref": "beverage-shelf-cams",
+                        "enabled": true,
+                        "stream-count": 1
+                      }
+                    ],
+                    "object-detection-application": {
+                      "model": "yolo-v2-tiny-tf",
+                      "device": "cpu",
+                      "precision": "fp16"
+                    }
+                  }    
+                },
+                "Deletes": {},
+                "Extensions": {
+                  "transaction-strategy-111": 0,
+                  "model-version-101": "0.2.0",
+                  "model-type-102": "Sra"
+                }
+              }         

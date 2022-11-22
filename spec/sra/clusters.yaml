@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=/tmp/schemas/cluster.yaml#/CASpecLogicalClusters
+---
+specSchema: "CompositeApp_Clusters"
+schemaVersion: "0.1"
+logicalClusters:
+  - logicalClusterName: sra-gpu-optimized-edge
+    clusterSpec:
+      clusterLabels: ["on-prem"]
+      clusterType:
+        type: vm
+        count: 1
+      slaRequirements:
+        - requirement: camlatency
+          type: LATENCY_RTT
+          value: 30ms
+          parameter: store7.xmart.com
+      infraRequirements:
+        cpu:
+          architecture: x86_64
+          cores: 12
+        memory:
+          size: 16GB
+        gpu: [
+          {
+            vendor: Intel
+          }
+        ]
+  - logicalClusterName: sra-generic-edge
+    clusterSpec:
+      clusterLabels: ["on-prem"]
+      clusterType:
+        type: vm
+        count: 1

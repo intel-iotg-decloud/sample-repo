@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=/tmp/schemas/composition.yaml#/CASpecComposition
+---
+specSchema: "CompositeApp_Composition"
+schemaVersion: "0.1"
+version: "0.1.18"
+name: "smart-retail-analytics"
+
+catalog:
+  icon: "null"
+  thumbnail: "/assets/sra.png"
+  description: "Smart Retail Analytics is an application that processes video streams from in-store cameras to count the number of people in the store, analyze their emotions and interest, and track shelf inventory. "
+  tags: [ "ai", "ml", "openvino" ]
+
+bundles:
+   logicalClusters: "clusters.yaml"
+   compositeProfiles: "profiles.yaml"
+   deploymentPlans: "deployment-plans.yaml"
+   applications: "applications.yaml"
+
+defaultCompositeProfile: "Production"
+defaultDeploymentPlan: "Single-Site"
+
+applications: ["sra-evam-helm", "rocaas-umbrella"]
+compositeProfiles: ["Production"]
+deploymentPlans: ["Single-Site", "Distributed"]
+logicalClusters: ["sra-gpu-optimized-edge", "sra-generic-edge"]
+
+endpoints:
+  - serviceUrl: http://roc.sra.xmart.maestro.intel.com:30003/
+    serviceName: sra-roc
+  - serviceUrl: http://viewer.sra.xmart.maestro.intel.com:30003/
+    serviceName: sra-viewer
+
