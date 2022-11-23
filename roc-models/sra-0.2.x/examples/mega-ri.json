@@ -101,7 +101,7 @@
           }
         ]
       }
-    ],  
+    ],
     "store-traffic-monitoring": {
       "enable": true,
       "default": "faceemotion-input",
@@ -113,6 +113,7 @@
         }
       ],
       "person-detection-application": {
+        "model": "person-detection-retail-0013",
         "device": "cpu",
         "precision": "fp16"
       }
@@ -128,14 +129,17 @@
         }
       ],
       "face-detection-application": {
+        "model": "face-detection-adas-0001",
         "device": "cpu",
         "precision": "fp16"
       },
       "head-pose-detection-application": {
+        "model": "head-pose-estimation-adas-0001",
         "device": "cpu",
         "precision": "fp16"
       },
       "emotion-recognition-application": {
+        "model": "emotions-recognition-retail-0003",
         "device": "cpu",
         "precision": "fp16"
       }
@@ -151,10 +155,11 @@
         }
       ],
       "object-detection-application": {
+        "model": "yolo-v2-tiny-tf",
         "device": "cpu",
         "precision": "fp16"
       }
-    }    
+    }
   },
   "Deletes": {},
   "Extensions": {
