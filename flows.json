@@ -2,7 +2,7 @@
     {
         "id": "e75e23786ba51dab",
         "type": "tab",
-        "label": "Smart Retail Analytics v3.7",
+        "label": "Smart Retail Analytics v3.8",
         "disabled": false,
         "info": "",
         "env": []
@@ -605,8 +605,8 @@
         "detectionDevice": "",
         "zeromqServer": "\"tcp://\" & $env('SERVER_DNS') & \":5555\"",
         "zeromqServerType": "jsonata",
-        "useModelInstanceId": true,
-        "modelInstanceId": "shelf",
+        "useModelInstanceId": false,
+        "modelInstanceId": "",
         "modelInstanceIdType": "str",
         "useNewModel": true,
         "newDetectionModel": "models/object_detection/SSD_1/FP32/SSD_1.xml",
