@@ -12,11 +12,11 @@
 		"properties": {
 			"detection-model": {
 				"type": "string",
-				"default": "models/object_detection/yolo-v2/FP16/yolo-v2-tiny-tf.xml"
+				"default": "models/object_detection/SSD_1/FP32/SSD_1.xml"
 			},
 			"detection-model-proc": {
 				"type": "string",
-				"default": "models/object_detection/yolo-v2/yolo-v2-tiny-tf.json"
+				"default": "models/object_detection/SSD_1/SSD_1.json"
 			},
 			"detection-properties": {
 				"element": {
