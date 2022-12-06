@@ -40,7 +40,7 @@
         "env": []
     },
     {
-        "id": "64c619678daef702",
+        "id": "e87e2ea76470259e",
         "type": "tab",
         "label": "Geti : Export Model",
         "disabled": false,
@@ -1394,9 +1394,9 @@
         "wires": []
     },
     {
-        "id": "a309e6f4238346a9",
+        "id": "40d448fbc7cbb2a8",
         "type": "inject",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Set Params",
         "props": [
             {
@@ -1405,8 +1405,8 @@
                 "vt": "str"
             },
             {
-                "p": "modelPath",
-                "v": "models/object_detection/SSD_2/FP32/<model_name.xml>",
+                "p": "modelName",
+                "v": "SSD_1",
                 "vt": "str"
             }
         ],
@@ -1419,14 +1419,14 @@
         "y": 240,
         "wires": [
             [
-                "b998f1f462fd8333"
+                "ad247c46bbcf31a0"
             ]
         ]
     },
     {
-        "id": "d810f94b823393fb",
+        "id": "a9da33b2072d2f2f",
         "type": "http request",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Enable Model",
         "method": "PUT",
         "ret": "obj",
@@ -1442,14 +1442,14 @@
         "y": 240,
         "wires": [
             [
-                "9ae347f88b8aa3ad"
+                "be07e028f92f9c0e"
             ]
         ]
     },
     {
-        "id": "b998f1f462fd8333",
+        "id": "ad247c46bbcf31a0",
         "type": "change",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Config",
         "rules": [
             {
@@ -1461,9 +1461,9 @@
             },
             {
                 "t": "set",
-                "p": "payload['modelPath']",
+                "p": "payload['modelName']",
                 "pt": "msg",
-                "to": "modelPath",
+                "to": "modelName",
                 "tot": "msg"
             }
         ],
@@ -1476,14 +1476,14 @@
         "y": 240,
         "wires": [
             [
-                "d810f94b823393fb"
+                "a9da33b2072d2f2f"
             ]
         ]
     },
     {
-        "id": "9ae347f88b8aa3ad",
+        "id": "be07e028f92f9c0e",
         "type": "switch",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Check Status",
         "property": "statusCode",
         "propertyType": "msg",
@@ -1504,17 +1504,17 @@
         "y": 240,
         "wires": [
             [
-                "d785726dbd4d235f"
+                "30655c0f5d38e995"
             ],
             [
-                "c91f500b0405f2cc"
+                "48d0bfc9e13ebe08"
             ]
         ]
     },
     {
-        "id": "d785726dbd4d235f",
+        "id": "30655c0f5d38e995",
         "type": "http request",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Reset Service",
         "method": "PUT",
         "ret": "txt",
@@ -1530,14 +1530,14 @@
         "y": 120,
         "wires": [
             [
-                "1cc6afd5aab7d860"
+                "4742a1f03cf9f108"
             ]
         ]
     },
     {
-        "id": "1cc6afd5aab7d860",
+        "id": "4742a1f03cf9f108",
         "type": "debug",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Status: Export Model",
         "active": true,
         "tosidebar": true,
@@ -1552,9 +1552,9 @@
         "wires": []
     },
     {
-        "id": "c91f500b0405f2cc",
+        "id": "48d0bfc9e13ebe08",
         "type": "subflow:fa520817cefa969d",
-        "z": "64c619678daef702",
+        "z": "e87e2ea76470259e",
         "name": "Handle Error",
         "x": 870,
         "y": 320,
