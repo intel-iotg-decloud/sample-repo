@@ -40,6 +40,36 @@
         "env": []
     },
     {
+        "id": "64c619678daef702",
+        "type": "tab",
+        "label": "Geti : Export Model",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fa520817cefa969d",
+        "type": "subflow",
+        "name": "ErrorHandler",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "44679d4fa7a582d1"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
         "id": "57a8bacd1de18feb",
         "type": "junction",
         "z": "31f9ffb72408a03b",
@@ -129,6 +159,135 @@
         "host": "EVAM_DNS",
         "hostInputType": "env",
         "port": "8080"
+    },
+    {
+        "id": "dcdaba92cc10a631",
+        "type": "debug",
+        "z": "fa520817cefa969d",
+        "name": "Server Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "44679d4fa7a582d1",
+        "type": "switch",
+        "z": "fa520817cefa969d",
+        "name": "Handle Error",
+        "property": "payload.errors",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "undefined",
+                "vt": "undefined"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "dcdaba92cc10a631"
+            ],
+            [
+                "e8ac2b407474c28a",
+                "089ff6cac2c8acce"
+            ]
+        ]
+    },
+    {
+        "id": "e8ac2b407474c28a",
+        "type": "switch",
+        "z": "fa520817cefa969d",
+        "name": "if error thrown",
+        "property": "payload.errors[0]",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 440,
+        "y": 180,
+        "wires": [
+            [
+                "33f5ddf48130b7d1"
+            ]
+        ]
+    },
+    {
+        "id": "33f5ddf48130b7d1",
+        "type": "debug",
+        "z": "fa520817cefa969d",
+        "name": "Export Error 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.errors[0]",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "089ff6cac2c8acce",
+        "type": "switch",
+        "z": "fa520817cefa969d",
+        "name": "if another error thrown",
+        "property": "payload.errors[1]",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "13a3c316dd147dcd"
+            ]
+        ]
+    },
+    {
+        "id": "13a3c316dd147dcd",
+        "type": "debug",
+        "z": "fa520817cefa969d",
+        "name": "Export Error 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.errors[1]",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 240,
+        "wires": []
     },
     {
         "id": "9101331d3f3a1032",
@@ -1232,6 +1391,173 @@
         "statusType": "auto",
         "x": 970,
         "y": 300,
+        "wires": []
+    },
+    {
+        "id": "a309e6f4238346a9",
+        "type": "inject",
+        "z": "64c619678daef702",
+        "name": "Set Params",
+        "props": [
+            {
+                "p": "pipelineName",
+                "v": "yolo-v2-gvapython",
+                "vt": "str"
+            },
+            {
+                "p": "modelPath",
+                "v": "models/object_detection/SSD_2/FP32/<model_name.xml>",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "b998f1f462fd8333"
+            ]
+        ]
+    },
+    {
+        "id": "d810f94b823393fb",
+        "type": "http request",
+        "z": "64c619678daef702",
+        "name": "Enable Model",
+        "method": "PUT",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "localhost:4000/enableModel",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "9ae347f88b8aa3ad"
+            ]
+        ]
+    },
+    {
+        "id": "b998f1f462fd8333",
+        "type": "change",
+        "z": "64c619678daef702",
+        "name": "Config",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload['pipelineName']",
+                "pt": "msg",
+                "to": "pipelineName",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload['modelPath']",
+                "pt": "msg",
+                "to": "modelPath",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "d810f94b823393fb"
+            ]
+        ]
+    },
+    {
+        "id": "9ae347f88b8aa3ad",
+        "type": "switch",
+        "z": "64c619678daef702",
+        "name": "Check Status",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "201",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 650,
+        "y": 240,
+        "wires": [
+            [
+                "d785726dbd4d235f"
+            ],
+            [
+                "c91f500b0405f2cc"
+            ]
+        ]
+    },
+    {
+        "id": "d785726dbd4d235f",
+        "type": "http request",
+        "z": "64c619678daef702",
+        "name": "Reset Service",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "localhost:4000/restartEvam",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 880,
+        "y": 120,
+        "wires": [
+            [
+                "1cc6afd5aab7d860"
+            ]
+        ]
+    },
+    {
+        "id": "1cc6afd5aab7d860",
+        "type": "debug",
+        "z": "64c619678daef702",
+        "name": "Status: Export Model",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c91f500b0405f2cc",
+        "type": "subflow:fa520817cefa969d",
+        "z": "64c619678daef702",
+        "name": "Handle Error",
+        "x": 870,
+        "y": 320,
         "wires": []
     }
 ]
