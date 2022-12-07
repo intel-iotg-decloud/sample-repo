@@ -1113,6 +1113,13 @@
                 "pt": "msg",
                 "to": "object_detection",
                 "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "dir_path",
+                "pt": "msg",
+                "to": "/data/sra/dataset/<dataset_name>",
+                "tot": "str"
             }
         ],
         "action": "",
@@ -1161,11 +1168,6 @@
                 "p": "host",
                 "v": "MLOPS_BUILD",
                 "vt": "env"
-            },
-            {
-                "p": "dir_path",
-                "v": "/data/sra/dataset/<dataset_name>",
-                "vt": "str"
             }
         ],
         "repeat": "",
@@ -1523,6 +1525,7 @@
         "tls": "",
         "persist": false,
         "proxy": "",
+        "insecureHTTPParser": false,
         "authType": "",
         "senderr": false,
         "headers": [],
