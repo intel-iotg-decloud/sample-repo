@@ -4,27 +4,26 @@
 
 module github.com/tmp/out/roc-api-server-sra-0.2.x
 
-go 1.18
+go 1.19
 
 require (
 	github.com/getkin/kin-openapi v0.98.0
 	github.com/ghodss/yaml v1.0.0
-	github.com/iancoleman/strcase v0.1.2
 	github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sra-0.2.x v0.0.0
 	github.com/labstack/echo/v4 v4.8.0
-	github.com/onosproject/aether-roc-api v0.10.21
-	github.com/onosproject/onos-api/go v0.10.0
-	github.com/onosproject/onos-config v0.10.38
-	github.com/onosproject/onos-lib-go v0.9.3
-	github.com/openconfig/gnmi v0.0.0-20220617175856-41246b1b3507
+	github.com/onosproject/aether-roc-api v0.10.24
+	github.com/onosproject/onos-api/go v0.10.5
+	github.com/onosproject/onos-config v0.11.2
+	github.com/onosproject/onos-lib-go v0.9.5
+	github.com/openconfig/gnmi v0.0.0-20220920173703-480bf53a74d2
 	github.com/spf13/cobra v1.4.0
-	golang.org/x/exp v0.0.0-20221114191408-850992195362
+	golang.org/x/exp v0.0.0-20230116083435-1de6713980de
 	google.golang.org/grpc v1.48.0
 )
 
 require (
 	github.com/Shopify/sarama v1.31.1 // indirect
-	github.com/atomix/runtime/sdk v0.3.4 // indirect
+	github.com/atomix/runtime/sdk v0.7.4 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.2.0 // indirect

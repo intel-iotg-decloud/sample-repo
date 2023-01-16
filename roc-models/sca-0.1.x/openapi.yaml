@@ -800,6 +800,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /collision-detection
+      tags:
+      - ""
     description: Configure Application to count objects in shelf
     get:
       operationId: getCollision-detection
@@ -811,6 +813,8 @@ paths:
                 $ref: '#/components/schemas/Collision-detection'
           description: GET OK 200
       summary: GET /collision-detection Container
+      tags:
+      - ""
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -821,6 +825,8 @@ paths:
         "201":
           description: created
       summary: POST /collision-detection
+      tags:
+      - ""
   /sca/v0.1.x/{city-id}/collision-detection/default/values:
     description: mark the default source
     get:
@@ -833,6 +839,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /collision-detection/default/values Leafref
+      tags:
+      - Collision-detection_Default
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/collision-detection/detection-application:
@@ -842,6 +850,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /collision-detection/detection-application
+      tags:
+      - Collision-detection
     description: configuration of vehicle Detection
     get:
       operationId: getCollision-detection_Detection-application
@@ -853,6 +863,8 @@ paths:
                 $ref: '#/components/schemas/Collision-detection_Detection-application'
           description: GET OK 200
       summary: GET /collision-detection/detection-application Container
+      tags:
+      - Collision-detection
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -863,6 +875,8 @@ paths:
         "201":
           description: created
       summary: POST /collision-detection/detection-application
+      tags:
+      - Collision-detection
   /sca/v0.1.x/{city-id}/collision-detection/detection-application/model-state:
     description: read only values about the models state
     get:
@@ -875,6 +889,8 @@ paths:
                 $ref: '#/components/schemas/Collision-detection_Detection-application_Model-state'
           description: GET OK 200
       summary: GET /collision-detection/detection-application/model-state Container
+      tags:
+      - Collision-detection_Detection-application
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/collision-detection/district:
@@ -889,6 +905,8 @@ paths:
                 $ref: '#/components/schemas/Collision-detection_District_List'
           description: GET OK 200
       summary: GET /collision-detection/district List
+      tags:
+      - Collision-detection_District
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/collision-detection/district/{district-ref}:
@@ -898,6 +916,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /collision-detection/district
+      tags:
+      - Collision-detection_District
     description: a list of references to sources
     get:
       operationId: getCollision-detection_District
@@ -909,6 +929,8 @@ paths:
                 $ref: '#/components/schemas/Collision-detection_District'
           description: GET OK 200
       summary: GET /collision-detection/district Container
+      tags:
+      - Collision-detection_District
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -927,6 +949,8 @@ paths:
         "201":
           description: created
       summary: POST /collision-detection/district
+      tags:
+      - Collision-detection_District
   /sca/v0.1.x/{city-id}/collision-detection/district/{district-ref}/district-ref/values:
     description: reference to a district
     get:
@@ -940,6 +964,8 @@ paths:
           description: GET OK 200
       summary: GET /collision-detection/district/{district-ref}/district-ref/values
         Leafref
+      tags:
+      - Collision-detection_District_District-ref
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -962,6 +988,8 @@ paths:
                 $ref: '#/components/schemas/District_List'
           description: GET OK 200
       summary: GET /district List
+      tags:
+      - District
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/district/{district-id}:
@@ -971,6 +999,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /district
+      tags:
+      - District
     description: district is a subsection of a city
     get:
       operationId: getDistrict
@@ -982,6 +1012,8 @@ paths:
                 $ref: '#/components/schemas/District'
           description: GET OK 200
       summary: GET /district Container
+      tags:
+      - District
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1000,6 +1032,8 @@ paths:
         "201":
           description: created
       summary: POST /district
+      tags:
+      - District
   /sca/v0.1.x/{city-id}/district/{district-id}/location:
     delete:
       operationId: deleteDistrict_Location
@@ -1007,6 +1041,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /district/{district-id}/location
+      tags:
+      - District
     description: physical location in grid or latitude and longitude
     get:
       operationId: getDistrict_Location
@@ -1018,6 +1054,8 @@ paths:
                 $ref: '#/components/schemas/District_Location'
           description: GET OK 200
       summary: GET /district/{district-id}/location Container
+      tags:
+      - District
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1036,6 +1074,8 @@ paths:
         "201":
           description: created
       summary: POST /district/{district-id}/location
+      tags:
+      - District
   /sca/v0.1.x/{city-id}/district/{district-id}/source:
     description: The list of cameras
     get:
@@ -1048,6 +1088,8 @@ paths:
                 $ref: '#/components/schemas/District_Source_List'
           description: GET OK 200
       summary: GET /district/{district-id}/source List
+      tags:
+      - District_Source
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1065,6 +1107,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /district/{district-id}/source
+      tags:
+      - District_Source
     description: The list of cameras
     get:
       operationId: getDistrict_Source
@@ -1076,6 +1120,8 @@ paths:
                 $ref: '#/components/schemas/District_Source'
           description: GET OK 200
       summary: GET /district/{district-id}/source Container
+      tags:
+      - District_Source
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1102,6 +1148,8 @@ paths:
         "201":
           description: created
       summary: POST /district/{district-id}/source
+      tags:
+      - District_Source
   /sca/v0.1.x/{city-id}/district/{district-id}/source/{source-id}/location:
     delete:
       operationId: deleteDistrict_Source_Location
@@ -1109,6 +1157,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /district/{district-id}/source/{source-id}/location
+      tags:
+      - District_Source
     description: physical location in grid or latitude and longitude
     get:
       operationId: getDistrict_Source_Location
@@ -1120,6 +1170,8 @@ paths:
                 $ref: '#/components/schemas/District_Source_Location'
           description: GET OK 200
       summary: GET /district/{district-id}/source/{source-id}/location Container
+      tags:
+      - District_Source
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1146,6 +1198,8 @@ paths:
         "201":
           description: created
       summary: POST /district/{district-id}/source/{source-id}/location
+      tags:
+      - District_Source
   /sca/v0.1.x/{city-id}/district/{district-id}/source/{source-id}/state:
     description: read only attributes of the source - populated by adapter from analytics
       engine
@@ -1159,6 +1213,8 @@ paths:
                 $ref: '#/components/schemas/District_Source_State'
           description: GET OK 200
       summary: GET /district/{district-id}/source/{source-id}/state Container
+      tags:
+      - District_Source
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1184,6 +1240,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /district/{district-id}/source/{source-id}/video
+      tags:
+      - District_Source
     description: attributes related to video stream
     get:
       operationId: getDistrict_Source_Video
@@ -1195,6 +1253,8 @@ paths:
                 $ref: '#/components/schemas/District_Source_Video'
           description: GET OK 200
       summary: GET /district/{district-id}/source/{source-id}/video Container
+      tags:
+      - District_Source
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1221,6 +1281,8 @@ paths:
         "201":
           description: created
       summary: POST /district/{district-id}/source/{source-id}/video
+      tags:
+      - District_Source
   /sca/v0.1.x/{city-id}/traffic-classification:
     delete:
       operationId: deleteTraffic-classification
@@ -1228,6 +1290,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-classification
+      tags:
+      - ""
     description: Configure the Application to classify traffic
     get:
       operationId: getTraffic-classification
@@ -1239,6 +1303,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-classification'
           description: GET OK 200
       summary: GET /traffic-classification Container
+      tags:
+      - ""
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -1249,6 +1315,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-classification
+      tags:
+      - ""
   /sca/v0.1.x/{city-id}/traffic-classification/classification-application:
     delete:
       operationId: deleteTraffic-classification_Classification-application
@@ -1256,6 +1324,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-classification/classification-application
+      tags:
+      - Traffic-classification
     description: configuration of traffic classification
     get:
       operationId: getTraffic-classification_Classification-application
@@ -1267,6 +1337,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-classification_Classification-application'
           description: GET OK 200
       summary: GET /traffic-classification/classification-application Container
+      tags:
+      - Traffic-classification
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -1277,6 +1349,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-classification/classification-application
+      tags:
+      - Traffic-classification
   /sca/v0.1.x/{city-id}/traffic-classification/classification-application/model-state:
     description: read only values about the models state
     get:
@@ -1290,6 +1364,8 @@ paths:
           description: GET OK 200
       summary: GET /traffic-classification/classification-application/model-state
         Container
+      tags:
+      - Traffic-classification_Classification-application
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/traffic-classification/default/values:
@@ -1304,6 +1380,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /traffic-classification/default/values Leafref
+      tags:
+      - Traffic-classification_Default
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/traffic-classification/detection-application:
@@ -1313,6 +1391,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-classification/detection-application
+      tags:
+      - Traffic-classification
     description: configuration of vehicle detection
     get:
       operationId: getTraffic-classification_Detection-application
@@ -1324,6 +1404,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-classification_Detection-application'
           description: GET OK 200
       summary: GET /traffic-classification/detection-application Container
+      tags:
+      - Traffic-classification
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -1334,6 +1416,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-classification/detection-application
+      tags:
+      - Traffic-classification
   /sca/v0.1.x/{city-id}/traffic-classification/detection-application/model-state:
     description: read only values about the models state
     get:
@@ -1346,6 +1430,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-classification_Detection-application_Model-state'
           description: GET OK 200
       summary: GET /traffic-classification/detection-application/model-state Container
+      tags:
+      - Traffic-classification_Detection-application
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/traffic-classification/district:
@@ -1360,6 +1446,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-classification_District_List'
           description: GET OK 200
       summary: GET /traffic-classification/district List
+      tags:
+      - Traffic-classification_District
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/traffic-classification/district/{district-ref}:
@@ -1369,6 +1457,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-classification/district
+      tags:
+      - Traffic-classification_District
     description: a list of references to sources
     get:
       operationId: getTraffic-classification_District
@@ -1380,6 +1470,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-classification_District'
           description: GET OK 200
       summary: GET /traffic-classification/district Container
+      tags:
+      - Traffic-classification_District
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1398,6 +1490,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-classification/district
+      tags:
+      - Traffic-classification_District
   /sca/v0.1.x/{city-id}/traffic-classification/district/{district-ref}/district-ref/values:
     description: reference to a district
     get:
@@ -1411,6 +1505,8 @@ paths:
           description: GET OK 200
       summary: GET /traffic-classification/district/{district-ref}/district-ref/values
         Leafref
+      tags:
+      - Traffic-classification_District_District-ref
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1428,6 +1524,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-monitoring
+      tags:
+      - ""
     description: Configure of Application to display count of persons, vehicles, and
       bicycles
     get:
@@ -1440,6 +1538,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-monitoring'
           description: GET OK 200
       summary: GET /traffic-monitoring Container
+      tags:
+      - ""
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -1450,6 +1550,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-monitoring
+      tags:
+      - ""
   /sca/v0.1.x/{city-id}/traffic-monitoring/default/values:
     description: mark the default source
     get:
@@ -1462,6 +1564,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /traffic-monitoring/default/values Leafref
+      tags:
+      - Traffic-monitoring_Default
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/traffic-monitoring/district:
@@ -1476,6 +1580,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-monitoring_District_List'
           description: GET OK 200
       summary: GET /traffic-monitoring/district List
+      tags:
+      - Traffic-monitoring_District
     parameters:
     - $ref: '#/components/parameters/city-id'
   /sca/v0.1.x/{city-id}/traffic-monitoring/district/{district-ref}:
@@ -1485,6 +1591,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-monitoring/district
+      tags:
+      - Traffic-monitoring_District
     description: a list of references to sources
     get:
       operationId: getTraffic-monitoring_District
@@ -1496,6 +1604,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-monitoring_District'
           description: GET OK 200
       summary: GET /traffic-monitoring/district Container
+      tags:
+      - Traffic-monitoring_District
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1514,6 +1624,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-monitoring/district
+      tags:
+      - Traffic-monitoring_District
   /sca/v0.1.x/{city-id}/traffic-monitoring/district/{district-ref}/district-ref/values:
     description: reference to a district
     get:
@@ -1527,6 +1639,8 @@ paths:
           description: GET OK 200
       summary: GET /traffic-monitoring/district/{district-ref}/district-ref/values
         Leafref
+      tags:
+      - Traffic-monitoring_District_District-ref
     parameters:
     - $ref: '#/components/parameters/city-id'
     - content:
@@ -1544,6 +1658,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /traffic-monitoring/person-vehicle-bike-detection-application
+      tags:
+      - Traffic-monitoring
     description: configuration Person, Vehicle, and Bike detection
     get:
       operationId: getTraffic-monitoring_Person-vehicle-bike-detection-application
@@ -1555,6 +1671,8 @@ paths:
                 $ref: '#/components/schemas/Traffic-monitoring_Person-vehicle-bike-detection-application'
           description: GET OK 200
       summary: GET /traffic-monitoring/person-vehicle-bike-detection-application Container
+      tags:
+      - Traffic-monitoring
     parameters:
     - $ref: '#/components/parameters/city-id'
     post:
@@ -1565,6 +1683,8 @@ paths:
         "201":
           description: created
       summary: POST /traffic-monitoring/person-vehicle-bike-detection-application
+      tags:
+      - Traffic-monitoring
   /sca/v0.1.x/{city-id}/traffic-monitoring/person-vehicle-bike-detection-application/model-state:
     description: read only values about the models state
     get:
@@ -1578,5 +1698,7 @@ paths:
           description: GET OK 200
       summary: GET /traffic-monitoring/person-vehicle-bike-detection-application/model-state
         Container
+      tags:
+      - Traffic-monitoring_Person-vehicle-bike-detection-application
     parameters:
     - $ref: '#/components/parameters/city-id'

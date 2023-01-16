@@ -23,6 +23,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	"github.com/onosproject/aether-roc-api/pkg/utils"
+	"github.com/onosproject/onos-api/go/onos/config/admin"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/onos-config/pkg/store/topo"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
@@ -183,11 +184,11 @@ func (i *ServerImpl) GnmiPostRetailArea(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailArea(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailArea(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailArea to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -264,11 +265,11 @@ func (i *ServerImpl) GnmiPostRetailAreaList(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -345,11 +346,11 @@ func (i *ServerImpl) GnmiPostRetailAreaLocation(ctx context.Context, body []byte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_Location %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaLocation(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaLocation(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaLocation to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -426,11 +427,11 @@ func (i *ServerImpl) GnmiPostRetailAreaLocationCoordinateSystem(ctx context.Cont
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as RetailAreaLocation.CoordinateSystem %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaLocationCoordinateSystem to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -507,11 +508,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSource(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_Source %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSource(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSource(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSource to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -588,11 +589,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSourceList(ctx context.Context, body []by
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_Source_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSourceList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSourceList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSourceList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -669,11 +670,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSourceLocation(ctx context.Context, body 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_Source_Location %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSourceLocation(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSourceLocation(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSourceLocation to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -750,11 +751,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSourceLocationCoordinateSystem(ctx contex
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as RetailAreaSourceLocation.CoordinateSystem %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSourceLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSourceLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSourceLocationCoordinateSystem to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -831,11 +832,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSourceState(ctx context.Context, body []b
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_Source_State %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSourceState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSourceState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSourceState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -912,11 +913,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSourceVideo(ctx context.Context, body []b
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Retail-area_Source_Video %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSourceVideo(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSourceVideo(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSourceVideo to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -993,11 +994,11 @@ func (i *ServerImpl) GnmiPostRetailAreaSourceVideoSourceType(ctx context.Context
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as RetailAreaSourceVideo.SourceType %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiRetailAreaSourceVideoSourceType(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiRetailAreaSourceVideoSourceType(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert RetailAreaSourceVideoSourceType to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1074,11 +1075,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoring(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shelf-monitoring %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoring(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoring(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoring to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1155,11 +1156,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoringObjectDetectionApplication(ctx conte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shelf-monitoring_Object-detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoringObjectDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoringObjectDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoringObjectDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1236,11 +1237,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoringObjectDetectionApplicationDevice(ctx
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShelfMonitoringObjectDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoringObjectDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoringObjectDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoringObjectDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1317,11 +1318,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoringObjectDetectionApplicationPrecision(
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShelfMonitoringObjectDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoringObjectDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoringObjectDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoringObjectDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1398,11 +1399,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoringObjectDetectionApplicationModelState
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shelf-monitoring_Object-detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoringObjectDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoringObjectDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoringObjectDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1479,11 +1480,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoringRetailArea(ctx context.Context, body
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shelf-monitoring_Retail-area %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoringRetailArea(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoringRetailArea(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoringRetailArea to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1560,11 +1561,11 @@ func (i *ServerImpl) GnmiPostShelfMonitoringRetailAreaList(ctx context.Context, 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shelf-monitoring_Retail-area_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShelfMonitoringRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShelfMonitoringRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShelfMonitoringRetailAreaList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1641,11 +1642,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoring(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoring(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoring(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoring to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1722,11 +1723,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringEmotionRecognitionApplication(ctx 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Emotion-recognition-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringEmotionRecognitionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1803,11 +1804,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringEmotionRecognitionApplicationDevic
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShopperMonitoringEmotionRecognitionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringEmotionRecognitionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1884,11 +1885,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringEmotionRecognitionApplicationPreci
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShopperMonitoringEmotionRecognitionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringEmotionRecognitionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1965,11 +1966,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringEmotionRecognitionApplicationModel
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Emotion-recognition-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringEmotionRecognitionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringEmotionRecognitionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2046,11 +2047,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringFaceDetectionApplication(ctx conte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Face-detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringFaceDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringFaceDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringFaceDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2127,11 +2128,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringFaceDetectionApplicationDevice(ctx
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShopperMonitoringFaceDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringFaceDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringFaceDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringFaceDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2208,11 +2209,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringFaceDetectionApplicationPrecision(
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShopperMonitoringFaceDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringFaceDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringFaceDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringFaceDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2289,11 +2290,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringFaceDetectionApplicationModelState
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Face-detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringFaceDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringFaceDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringFaceDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2370,11 +2371,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringHeadPoseDetectionApplication(ctx c
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Head-pose-detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringHeadPoseDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2451,11 +2452,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringHeadPoseDetectionApplicationDevice
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShopperMonitoringHeadPoseDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringHeadPoseDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2532,11 +2533,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringHeadPoseDetectionApplicationPrecis
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as ShopperMonitoringHeadPoseDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringHeadPoseDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2613,11 +2614,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringHeadPoseDetectionApplicationModelS
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Head-pose-detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringHeadPoseDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringHeadPoseDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2694,11 +2695,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringRetailArea(ctx context.Context, bo
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Retail-area %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringRetailArea(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringRetailArea(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringRetailArea to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2775,11 +2776,11 @@ func (i *ServerImpl) GnmiPostShopperMonitoringRetailAreaList(ctx context.Context
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Shopper-monitoring_Retail-area_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiShopperMonitoringRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiShopperMonitoringRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert ShopperMonitoringRetailAreaList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2856,11 +2857,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoring(ctx context.Context, body []
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Store-traffic-monitoring %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoring(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoring(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoring to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2937,11 +2938,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoringPersonDetectionApplication(ct
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Store-traffic-monitoring_Person-detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoringPersonDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3018,11 +3019,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoringPersonDetectionApplicationDev
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as StoreTrafficMonitoringPersonDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoringPersonDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3099,11 +3100,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoringPersonDetectionApplicationPre
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as StoreTrafficMonitoringPersonDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoringPersonDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3180,11 +3181,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoringPersonDetectionApplicationMod
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Store-traffic-monitoring_Person-detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoringPersonDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoringPersonDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3261,11 +3262,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoringRetailArea(ctx context.Contex
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Store-traffic-monitoring_Retail-area %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoringRetailArea(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoringRetailArea(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoringRetailArea to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3342,11 +3343,11 @@ func (i *ServerImpl) GnmiPostStoreTrafficMonitoringRetailAreaList(ctx context.Co
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Store-traffic-monitoring_Retail-area_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreTrafficMonitoringRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreTrafficMonitoringRetailAreaList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreTrafficMonitoringRetailAreaList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3423,11 +3424,11 @@ func (i *ServerImpl) GnmiPostStoreId(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as store-id %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiStoreId(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiStoreId(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert StoreId to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3595,9 +3596,10 @@ var log = logging.GetLogger("model_0_0_0")
 
 // ServerImpl -
 type ServerImpl struct {
-	GnmiClient   southbound.GnmiClient
-	GnmiTimeout  time.Duration
-	TopoEndpoint string
+	GnmiClient               southbound.GnmiClient
+	GnmiTimeout              time.Duration
+	TopoEndpoint             string
+	ConfigAdminServiceClient admin.ConfigAdminServiceClient
 }
 
 // GetRetailAreaList impl of gNMI access at /sra/v0.2.x/{store-id}/retail-area

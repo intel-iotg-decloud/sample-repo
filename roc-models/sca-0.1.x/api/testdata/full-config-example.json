@@ -1,7 +1,7 @@
 {
-  "retail-area": [
+  "district": [
     {
-      "area-id": "area1",
+      "district-id": "district1",
       "source": [
         {
           "source-id": "source1-1"
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "area-id": "area2",
+      "district-id": "district2",
       "source": [
         {
           "source-id": "source2-1"
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "area-id": "area3",
+      "district-id": "district3",
       "source": [
         {
           "source-id": "source3-1"
@@ -34,17 +34,17 @@
       ]
     }
   ],
-  "store-traffic-monitoring": {
+  "collision-detection": {
     "enable": true,
     "default": "source1-2",
-    "retail-area": [
+    "district": [
       {
-        "area-ref": "area1",
+        "district-ref": "district1",
         "enabled": true,
         "stream-count": 1
       },
       {
-        "area-ref": "area3",
+        "district-ref": "district3",
         "enabled": true,
         "stream-count": 1
       }
