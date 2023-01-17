@@ -871,6 +871,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_List'
           description: GET OK 200
       summary: GET /retail-area List
+      tags:
+      - Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/retail-area/{area-id}:
@@ -880,6 +882,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /retail-area
+      tags:
+      - Retail-area
     description: Area is a physical place in a retail location e.g. department, floor
     get:
       operationId: getRetail-area
@@ -891,6 +895,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area'
           description: GET OK 200
       summary: GET /retail-area Container
+      tags:
+      - Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -909,6 +915,8 @@ paths:
         "201":
           description: created
       summary: POST /retail-area
+      tags:
+      - Retail-area
   /sra/v0.2.x/{store-id}/retail-area/{area-id}/location:
     delete:
       operationId: deleteRetail-area_Location
@@ -916,6 +924,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /retail-area/{area-id}/location
+      tags:
+      - Retail-area
     description: physical location in grid or latitude and longitude
     get:
       operationId: getRetail-area_Location
@@ -927,6 +937,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_Location'
           description: GET OK 200
       summary: GET /retail-area/{area-id}/location Container
+      tags:
+      - Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -945,6 +957,8 @@ paths:
         "201":
           description: created
       summary: POST /retail-area/{area-id}/location
+      tags:
+      - Retail-area
   /sra/v0.2.x/{store-id}/retail-area/{area-id}/source:
     description: The list of cameras
     get:
@@ -957,6 +971,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_Source_List'
           description: GET OK 200
       summary: GET /retail-area/{area-id}/source List
+      tags:
+      - Retail-area_Source
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -974,6 +990,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /retail-area/{area-id}/source
+      tags:
+      - Retail-area_Source
     description: The list of cameras
     get:
       operationId: getRetail-area_Source
@@ -985,6 +1003,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_Source'
           description: GET OK 200
       summary: GET /retail-area/{area-id}/source Container
+      tags:
+      - Retail-area_Source
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1011,6 +1031,8 @@ paths:
         "201":
           description: created
       summary: POST /retail-area/{area-id}/source
+      tags:
+      - Retail-area_Source
   /sra/v0.2.x/{store-id}/retail-area/{area-id}/source/{source-id}/location:
     delete:
       operationId: deleteRetail-area_Source_Location
@@ -1018,6 +1040,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /retail-area/{area-id}/source/{source-id}/location
+      tags:
+      - Retail-area_Source
     description: physical location in grid or latitude and longitude
     get:
       operationId: getRetail-area_Source_Location
@@ -1029,6 +1053,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_Source_Location'
           description: GET OK 200
       summary: GET /retail-area/{area-id}/source/{source-id}/location Container
+      tags:
+      - Retail-area_Source
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1055,6 +1081,8 @@ paths:
         "201":
           description: created
       summary: POST /retail-area/{area-id}/source/{source-id}/location
+      tags:
+      - Retail-area_Source
   /sra/v0.2.x/{store-id}/retail-area/{area-id}/source/{source-id}/state:
     description: read only attributes of the source - populated by adapter from analytics
       engine
@@ -1068,6 +1096,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_Source_State'
           description: GET OK 200
       summary: GET /retail-area/{area-id}/source/{source-id}/state Container
+      tags:
+      - Retail-area_Source
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1093,6 +1123,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /retail-area/{area-id}/source/{source-id}/video
+      tags:
+      - Retail-area_Source
     description: attributes related to video stream
     get:
       operationId: getRetail-area_Source_Video
@@ -1104,6 +1136,8 @@ paths:
                 $ref: '#/components/schemas/Retail-area_Source_Video'
           description: GET OK 200
       summary: GET /retail-area/{area-id}/source/{source-id}/video Container
+      tags:
+      - Retail-area_Source
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1130,6 +1164,8 @@ paths:
         "201":
           description: created
       summary: POST /retail-area/{area-id}/source/{source-id}/video
+      tags:
+      - Retail-area_Source
   /sra/v0.2.x/{store-id}/shelf-monitoring:
     delete:
       operationId: deleteShelf-monitoring
@@ -1137,6 +1173,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shelf-monitoring
+      tags:
+      - ""
     description: Configure Application to count objects in shelf
     get:
       operationId: getShelf-monitoring
@@ -1148,6 +1186,8 @@ paths:
                 $ref: '#/components/schemas/Shelf-monitoring'
           description: GET OK 200
       summary: GET /shelf-monitoring Container
+      tags:
+      - ""
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1158,6 +1198,8 @@ paths:
         "201":
           description: created
       summary: POST /shelf-monitoring
+      tags:
+      - ""
   /sra/v0.2.x/{store-id}/shelf-monitoring/default/values:
     description: mark the default source
     get:
@@ -1170,6 +1212,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /shelf-monitoring/default/values Leafref
+      tags:
+      - Shelf-monitoring_Default
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shelf-monitoring/object-detection-application:
@@ -1179,6 +1223,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shelf-monitoring/object-detection-application
+      tags:
+      - Shelf-monitoring
     description: configuration of Object Detection
     get:
       operationId: getShelf-monitoring_Object-detection-application
@@ -1190,6 +1236,8 @@ paths:
                 $ref: '#/components/schemas/Shelf-monitoring_Object-detection-application'
           description: GET OK 200
       summary: GET /shelf-monitoring/object-detection-application Container
+      tags:
+      - Shelf-monitoring
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1200,6 +1248,8 @@ paths:
         "201":
           description: created
       summary: POST /shelf-monitoring/object-detection-application
+      tags:
+      - Shelf-monitoring
   /sra/v0.2.x/{store-id}/shelf-monitoring/object-detection-application/model-state:
     description: read only values about the models state
     get:
@@ -1212,6 +1262,8 @@ paths:
                 $ref: '#/components/schemas/Shelf-monitoring_Object-detection-application_Model-state'
           description: GET OK 200
       summary: GET /shelf-monitoring/object-detection-application/model-state Container
+      tags:
+      - Shelf-monitoring_Object-detection-application
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shelf-monitoring/retail-area:
@@ -1226,6 +1278,8 @@ paths:
                 $ref: '#/components/schemas/Shelf-monitoring_Retail-area_List'
           description: GET OK 200
       summary: GET /shelf-monitoring/retail-area List
+      tags:
+      - Shelf-monitoring_Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shelf-monitoring/retail-area/{area-ref}:
@@ -1235,6 +1289,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shelf-monitoring/retail-area
+      tags:
+      - Shelf-monitoring_Retail-area
     description: a list of references to sources
     get:
       operationId: getShelf-monitoring_Retail-area
@@ -1246,6 +1302,8 @@ paths:
                 $ref: '#/components/schemas/Shelf-monitoring_Retail-area'
           description: GET OK 200
       summary: GET /shelf-monitoring/retail-area Container
+      tags:
+      - Shelf-monitoring_Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1264,6 +1322,8 @@ paths:
         "201":
           description: created
       summary: POST /shelf-monitoring/retail-area
+      tags:
+      - Shelf-monitoring_Retail-area
   /sra/v0.2.x/{store-id}/shelf-monitoring/retail-area/{area-ref}/area-ref/values:
     description: reference to a retail-area
     get:
@@ -1276,6 +1336,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /shelf-monitoring/retail-area/{area-ref}/area-ref/values Leafref
+      tags:
+      - Shelf-monitoring_Retail-area_Area-ref
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1293,6 +1355,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shopper-monitoring
+      tags:
+      - ""
     description: Configure the Application to recognize Shopper Emotions
     get:
       operationId: getShopper-monitoring
@@ -1304,6 +1368,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring'
           description: GET OK 200
       summary: GET /shopper-monitoring Container
+      tags:
+      - ""
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1314,6 +1380,8 @@ paths:
         "201":
           description: created
       summary: POST /shopper-monitoring
+      tags:
+      - ""
   /sra/v0.2.x/{store-id}/shopper-monitoring/default/values:
     description: mark the default source
     get:
@@ -1326,6 +1394,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /shopper-monitoring/default/values Leafref
+      tags:
+      - Shopper-monitoring_Default
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shopper-monitoring/emotion-recognition-application:
@@ -1335,6 +1405,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shopper-monitoring/emotion-recognition-application
+      tags:
+      - Shopper-monitoring
     description: configuration of emotion recognition
     get:
       operationId: getShopper-monitoring_Emotion-recognition-application
@@ -1346,6 +1418,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring_Emotion-recognition-application'
           description: GET OK 200
       summary: GET /shopper-monitoring/emotion-recognition-application Container
+      tags:
+      - Shopper-monitoring
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1356,6 +1430,8 @@ paths:
         "201":
           description: created
       summary: POST /shopper-monitoring/emotion-recognition-application
+      tags:
+      - Shopper-monitoring
   /sra/v0.2.x/{store-id}/shopper-monitoring/emotion-recognition-application/model-state:
     description: read only values about the models state
     get:
@@ -1369,6 +1445,8 @@ paths:
           description: GET OK 200
       summary: GET /shopper-monitoring/emotion-recognition-application/model-state
         Container
+      tags:
+      - Shopper-monitoring_Emotion-recognition-application
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shopper-monitoring/face-detection-application:
@@ -1378,6 +1456,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shopper-monitoring/face-detection-application
+      tags:
+      - Shopper-monitoring
     description: configuration of face detection
     get:
       operationId: getShopper-monitoring_Face-detection-application
@@ -1389,6 +1469,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring_Face-detection-application'
           description: GET OK 200
       summary: GET /shopper-monitoring/face-detection-application Container
+      tags:
+      - Shopper-monitoring
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1399,6 +1481,8 @@ paths:
         "201":
           description: created
       summary: POST /shopper-monitoring/face-detection-application
+      tags:
+      - Shopper-monitoring
   /sra/v0.2.x/{store-id}/shopper-monitoring/face-detection-application/model-state:
     description: read only values about the models state
     get:
@@ -1411,6 +1495,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring_Face-detection-application_Model-state'
           description: GET OK 200
       summary: GET /shopper-monitoring/face-detection-application/model-state Container
+      tags:
+      - Shopper-monitoring_Face-detection-application
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shopper-monitoring/head-pose-detection-application:
@@ -1420,6 +1506,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shopper-monitoring/head-pose-detection-application
+      tags:
+      - Shopper-monitoring
     description: configuration of head pose detection
     get:
       operationId: getShopper-monitoring_Head-pose-detection-application
@@ -1431,6 +1519,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring_Head-pose-detection-application'
           description: GET OK 200
       summary: GET /shopper-monitoring/head-pose-detection-application Container
+      tags:
+      - Shopper-monitoring
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1441,6 +1531,8 @@ paths:
         "201":
           description: created
       summary: POST /shopper-monitoring/head-pose-detection-application
+      tags:
+      - Shopper-monitoring
   /sra/v0.2.x/{store-id}/shopper-monitoring/head-pose-detection-application/model-state:
     description: read only values about the models state
     get:
@@ -1454,6 +1546,8 @@ paths:
           description: GET OK 200
       summary: GET /shopper-monitoring/head-pose-detection-application/model-state
         Container
+      tags:
+      - Shopper-monitoring_Head-pose-detection-application
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shopper-monitoring/retail-area:
@@ -1468,6 +1562,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring_Retail-area_List'
           description: GET OK 200
       summary: GET /shopper-monitoring/retail-area List
+      tags:
+      - Shopper-monitoring_Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/shopper-monitoring/retail-area/{area-ref}:
@@ -1477,6 +1573,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /shopper-monitoring/retail-area
+      tags:
+      - Shopper-monitoring_Retail-area
     description: a list of references to sources
     get:
       operationId: getShopper-monitoring_Retail-area
@@ -1488,6 +1586,8 @@ paths:
                 $ref: '#/components/schemas/Shopper-monitoring_Retail-area'
           description: GET OK 200
       summary: GET /shopper-monitoring/retail-area Container
+      tags:
+      - Shopper-monitoring_Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1506,6 +1606,8 @@ paths:
         "201":
           description: created
       summary: POST /shopper-monitoring/retail-area
+      tags:
+      - Shopper-monitoring_Retail-area
   /sra/v0.2.x/{store-id}/shopper-monitoring/retail-area/{area-ref}/area-ref/values:
     description: reference to a retail-area
     get:
@@ -1518,6 +1620,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /shopper-monitoring/retail-area/{area-ref}/area-ref/values Leafref
+      tags:
+      - Shopper-monitoring_Retail-area_Area-ref
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1535,6 +1639,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /store-traffic-monitoring
+      tags:
+      - ""
     description: Configure of Application to display shopper count
     get:
       operationId: getStore-traffic-monitoring
@@ -1546,6 +1652,8 @@ paths:
                 $ref: '#/components/schemas/Store-traffic-monitoring'
           description: GET OK 200
       summary: GET /store-traffic-monitoring Container
+      tags:
+      - ""
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1556,6 +1664,8 @@ paths:
         "201":
           description: created
       summary: POST /store-traffic-monitoring
+      tags:
+      - ""
   /sra/v0.2.x/{store-id}/store-traffic-monitoring/default/values:
     description: mark the default source
     get:
@@ -1568,6 +1678,8 @@ paths:
                 $ref: '#/components/schemas/LeafRefOptions'
           description: GET OK 200
       summary: GET /store-traffic-monitoring/default/values Leafref
+      tags:
+      - Store-traffic-monitoring_Default
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/store-traffic-monitoring/person-detection-application:
@@ -1577,6 +1689,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /store-traffic-monitoring/person-detection-application
+      tags:
+      - Store-traffic-monitoring
     description: configuration Person Detection
     get:
       operationId: getStore-traffic-monitoring_Person-detection-application
@@ -1588,6 +1702,8 @@ paths:
                 $ref: '#/components/schemas/Store-traffic-monitoring_Person-detection-application'
           description: GET OK 200
       summary: GET /store-traffic-monitoring/person-detection-application Container
+      tags:
+      - Store-traffic-monitoring
     parameters:
     - $ref: '#/components/parameters/store-id'
     post:
@@ -1598,6 +1714,8 @@ paths:
         "201":
           description: created
       summary: POST /store-traffic-monitoring/person-detection-application
+      tags:
+      - Store-traffic-monitoring
   /sra/v0.2.x/{store-id}/store-traffic-monitoring/person-detection-application/model-state:
     description: read only values about the models state
     get:
@@ -1611,6 +1729,8 @@ paths:
           description: GET OK 200
       summary: GET /store-traffic-monitoring/person-detection-application/model-state
         Container
+      tags:
+      - Store-traffic-monitoring_Person-detection-application
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/store-traffic-monitoring/retail-area:
@@ -1625,6 +1745,8 @@ paths:
                 $ref: '#/components/schemas/Store-traffic-monitoring_Retail-area_List'
           description: GET OK 200
       summary: GET /store-traffic-monitoring/retail-area List
+      tags:
+      - Store-traffic-monitoring_Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
   /sra/v0.2.x/{store-id}/store-traffic-monitoring/retail-area/{area-ref}:
@@ -1634,6 +1756,8 @@ paths:
         "200":
           description: DELETE 200 OK
       summary: DELETE /store-traffic-monitoring/retail-area
+      tags:
+      - Store-traffic-monitoring_Retail-area
     description: a list of references to sources
     get:
       operationId: getStore-traffic-monitoring_Retail-area
@@ -1645,6 +1769,8 @@ paths:
                 $ref: '#/components/schemas/Store-traffic-monitoring_Retail-area'
           description: GET OK 200
       summary: GET /store-traffic-monitoring/retail-area Container
+      tags:
+      - Store-traffic-monitoring_Retail-area
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:
@@ -1663,6 +1789,8 @@ paths:
         "201":
           description: created
       summary: POST /store-traffic-monitoring/retail-area
+      tags:
+      - Store-traffic-monitoring_Retail-area
   /sra/v0.2.x/{store-id}/store-traffic-monitoring/retail-area/{area-ref}/area-ref/values:
     description: reference to a retail-area
     get:
@@ -1676,6 +1804,8 @@ paths:
           description: GET OK 200
       summary: GET /store-traffic-monitoring/retail-area/{area-ref}/area-ref/values
         Leafref
+      tags:
+      - Store-traffic-monitoring_Retail-area_Area-ref
     parameters:
     - $ref: '#/components/parameters/store-id'
     - content:

@@ -67,7 +67,7 @@ roc-api:
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-api-server-sra-0.2.x
-    tag: 0.2.1-dev
+    tag: 0.2.2-dev
     pullPolicy: IfNotPresent
 # for GUI development only - comment out for production
 #  corsOrigins:
@@ -80,16 +80,21 @@ roc-adapter:
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-adapter-sra-0.2.x
-    tag: 0.2.1-dev
+    tag: 0.2.2-dev
     pullPolicy: IfNotPresent
 
 roc-gui:
+  service:
+    name: roc-gui
+    port: 8081
+    type: NodePort
+    nodePort: 30002
   runtimeConfig:
     targetType: store
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-ui
-    tag: v0.2.2
+    tag: v0.2.3
     pullPolicy: IfNotPresent
 
 # ONOS-TOPO
@@ -105,9 +110,10 @@ onos-config:
     store:
       consensus:
         enabled: false
+
   modelPlugins:
     - name: sra-0-2-x
-      image: default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-sra-0.2.x:0.2.1-dev
+      image: default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-model-sra-0.2.x:0.2.2-dev
       pullPolicy: IfNotPresent
       endpoint: localhost
       port: 5152
@@ -118,20 +124,16 @@ onos-config:
 
 
 topology:
-  kind: store
+  kinds:
+    - kind: store
   adapter:
     address: roc-adapter:5150
     version: 0.2.x
     type: sra
   targets:
-    - id: portland-north
-      name: Portland North
-    - id: portland-south
-      name: Portland South
     - id: reference-store
       name: Reference Store
-      rest_address: configmanager-api-server-srihari-ri.apps.devcloud.awsdevcloud.com
-      rest_port: 80
+      kind: store
 
 # Load Initial Mega-Patch
 config:

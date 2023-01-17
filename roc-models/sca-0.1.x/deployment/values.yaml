@@ -67,7 +67,7 @@ roc-api:
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-api-server-sca-0.1.x
-    tag: 0.1.1-dev
+    tag: 0.1.2-dev
     pullPolicy: IfNotPresent
 # for GUI development only - comment out for production
 #  corsOrigins:
@@ -80,16 +80,21 @@ roc-adapter:
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-adapter-sca-0.1.x
-    tag: 0.1.1-dev
+    tag: 0.1.2-dev
     pullPolicy: IfNotPresent
 
 roc-gui:
+  service:
+    name: roc-gui
+    port: 8081
+    type: NodePort
+    nodePort: 30002
   runtimeConfig:
     targetType: city
   image:
     registry: default-route-openshift-image-registry.apps.nex.one-edge.intel.com
     repository: springboard-dev-common/roc-ui
-    tag: v0.2.2
+    tag: v0.2.3
     pullPolicy: IfNotPresent
 
 # ONOS-TOPO
@@ -107,7 +112,7 @@ onos-config:
         enabled: false
   modelPlugins:
     - name: sca-0-1-x
-      image: default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-sca-0.1.x:0.1.1-dev
+      image: default-route-openshift-image-registry.apps.nex.one-edge.intel.com/springboard-dev-common/roc-model-sca-0.1.x:0.1.2-dev
       pullPolicy: IfNotPresent
       endpoint: localhost
       port: 5152
@@ -118,7 +123,8 @@ onos-config:
 
 
 topology:
-  kind: city
+  kinds:
+    - kind: city
   adapter:
     address: roc-adapter:5150
     version: 0.1.x
@@ -126,8 +132,7 @@ topology:
   targets:
     - id: reference-city
       name: Reference City
-      rest_address: configmanager-api-server-srihari-ri-dev.apps.devcloud.awsdevcloud.com
-      rest_port: 80
+      kind: city
 
 # Load Initial Mega-Patch
 config:

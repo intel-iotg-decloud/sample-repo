@@ -41,7 +41,7 @@ var re *regexp.Regexp = regexp.MustCompile(`[A-Z][^A-Z]*`)
 // EncodeToGnmiCollisionDetection converts OAPI to gNMI.
 func EncodeToGnmiCollisionDetection(
 	jsonObj *CollisionDetection, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -50,6 +50,7 @@ func EncodeToGnmiCollisionDetection(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -66,40 +67,53 @@ func EncodeToGnmiCollisionDetection(
 		paramsDefault = append(paramsDefault, stringValDefault)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDefault", paramsDefault...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/default"), paramsDefault...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/default"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: detection-application CollisionDetectionDetectionApplication
 	if jsonObj.DetectionApplication != nil { // Optional leaf
 
-		update, err := EncodeToGnmiCollisionDetectionDetectionApplication(
+		update, delete, err := EncodeToGnmiCollisionDetectionDetectionApplication(
 			jsonObj.DetectionApplication, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "detection-application"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: district CollisionDetectionDistrictList
 	if jsonObj.District != nil { // Optional leaf
 
-		update, err := EncodeToGnmiCollisionDetectionDistrictList(
+		update, delete, err := EncodeToGnmiCollisionDetectionDistrictList(
 			jsonObj.District, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "district"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: enable bool
 	_, unchangedEnable := unchangedAttrs["enable"]
 	if !unchangedEnable { // Mandatory leaf
@@ -111,33 +125,32 @@ func EncodeToGnmiCollisionDetection(
 		paramsEnable = append(paramsEnable, stringValEnable)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionEnable", paramsEnable...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/enable"), paramsEnable...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "CollisionDetection", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -145,7 +158,7 @@ func EncodeToGnmiCollisionDetection(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -161,13 +174,13 @@ func EncodeToGnmiCollisionDetection(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCollisionDetectionDetectionApplication converts OAPI to gNMI.
 func EncodeToGnmiCollisionDetectionDetectionApplication(
 	jsonObj *CollisionDetectionDetectionApplication, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -176,6 +189,7 @@ func EncodeToGnmiCollisionDetectionDetectionApplication(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -191,19 +205,19 @@ func EncodeToGnmiCollisionDetectionDetectionApplication(
 		paramsDevice = append(paramsDevice, (string)(jsonObj.Device))
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationDevice", paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/device"), paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: model string
 	if jsonObj.Model != nil { // Optional leaf
 
@@ -214,29 +228,40 @@ func EncodeToGnmiCollisionDetectionDetectionApplication(
 		paramsModel = append(paramsModel, stringValModel)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationModel", paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/model"), paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/model"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: model-state CollisionDetectionDetectionApplicationModelState
 	if jsonObj.ModelState != nil { // Optional leaf
 
-		update, err := EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
+		update, delete, err := EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 			jsonObj.ModelState, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "model-state"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: precision string
 	_, unchangedPrecision := unchangedAttrs["precision"]
 	if !unchangedPrecision { // Mandatory leaf
@@ -246,34 +271,33 @@ func EncodeToGnmiCollisionDetectionDetectionApplication(
 		paramsPrecision = append(paramsPrecision, (string)(jsonObj.Precision))
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationPrecision", paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/precision"), paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "CollisionDetectionDetectionApplication", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -281,7 +305,7 @@ func EncodeToGnmiCollisionDetectionDetectionApplication(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -297,13 +321,13 @@ func EncodeToGnmiCollisionDetectionDetectionApplication(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCollisionDetectionDetectionApplicationDevice converts OAPI to gNMI.
 func EncodeToGnmiCollisionDetectionDetectionApplicationDevice(
 	jsonObj *CollisionDetectionDetectionApplicationDevice, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -312,6 +336,7 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationDevice(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -327,24 +352,24 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationDevice(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationDevice", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCollisionDetectionDetectionApplicationPrecision converts OAPI to gNMI.
 func EncodeToGnmiCollisionDetectionDetectionApplicationPrecision(
 	jsonObj *CollisionDetectionDetectionApplicationPrecision, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -353,6 +378,7 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationPrecision(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -368,24 +394,24 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationPrecision(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationPrecision", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCollisionDetectionDetectionApplicationModelState converts OAPI to gNMI.
 func EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 	jsonObj *CollisionDetectionDetectionApplicationModelState, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -394,6 +420,7 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -410,18 +437,27 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 		paramsActiveModelFile = append(paramsActiveModelFile, stringValActiveModelFile)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationModelStateActiveModelFile", paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-file"), paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-file"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: active-model-name string
 	if jsonObj.ActiveModelName != nil { // Optional leaf
 
@@ -432,33 +468,41 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 		paramsActiveModelName = append(paramsActiveModelName, stringValActiveModelName)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDetectionApplicationModelStateActiveModelName", paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-name"), paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-name"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "CollisionDetectionDetectionApplicationModelState", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -466,7 +510,7 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -482,13 +526,13 @@ func EncodeToGnmiCollisionDetectionDetectionApplicationModelState(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCollisionDetectionDistrict converts OAPI to gNMI.
 func EncodeToGnmiCollisionDetectionDistrict(
 	jsonObj *CollisionDetectionDistrict, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -497,6 +541,7 @@ func EncodeToGnmiCollisionDetectionDistrict(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -514,18 +559,18 @@ func EncodeToGnmiCollisionDetectionDistrict(
 		paramsDistrictRef = append(paramsDistrictRef, stringValDistrictRef)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDistrictDistrictRef", paramsDistrictRef...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/district-ref"), paramsDistrictRef...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: enabled bool
 	_, unchangedEnabled := unchangedAttrs["enabled"]
 	if !unchangedEnabled { // Mandatory leaf
@@ -537,18 +582,18 @@ func EncodeToGnmiCollisionDetectionDistrict(
 		paramsEnabled = append(paramsEnabled, stringValEnabled)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDistrictEnabled", paramsEnabled...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/enabled"), paramsEnabled...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: stream-count int
 	if jsonObj.StreamCount != nil { // Optional leaf
 
@@ -559,33 +604,41 @@ func EncodeToGnmiCollisionDetectionDistrict(
 		paramsStreamCount = append(paramsStreamCount, stringValStreamCount)
 		mpField, err := utils.CreateModelPluginObject(&mp, "CollisionDetectionDistrictStreamCount", paramsStreamCount...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/stream-count"), paramsStreamCount...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/stream-count"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "CollisionDetectionDistrict", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -593,7 +646,7 @@ func EncodeToGnmiCollisionDetectionDistrict(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -609,35 +662,37 @@ func EncodeToGnmiCollisionDetectionDistrict(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCollisionDetectionDistrictList converts OAPI List to gNMI List.
 func EncodeToGnmiCollisionDetectionDistrictList(
 	jsonObj *CollisionDetectionDistrictList, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	for _, childObj := range *jsonObj {
 		childObj := childObj //Pinning
 		allParams := make([]string, len(params))
 		copy(allParams, params)
 		allParams = append(allParams, "unknown_id")
 
-		newUpdates, err := EncodeToGnmiCollisionDetectionDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
+		newUpdates, newDeletes, err := EncodeToGnmiCollisionDetectionDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, newUpdates...)
+		deletes = append(deletes, newDeletes...)
 	}
 
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrict converts OAPI to gNMI.
 func EncodeToGnmiDistrict(
 	jsonObj *District, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -646,6 +701,7 @@ func EncodeToGnmiDistrict(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -662,18 +718,27 @@ func EncodeToGnmiDistrict(
 		paramsDescription = append(paramsDescription, stringValDescription)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictDescription", paramsDescription...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/description"), paramsDescription...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/description"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: display-name string
 	if jsonObj.DisplayName != nil { // Optional leaf
 
@@ -684,18 +749,27 @@ func EncodeToGnmiDistrict(
 		paramsDisplayName = append(paramsDisplayName, stringValDisplayName)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictDisplayName", paramsDisplayName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/display-name"), paramsDisplayName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/display-name"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: district-id ListKey
 	_, unchangedDistrictId := unchangedAttrs["district-id"]
 	if !unchangedDistrictId { // Mandatory leaf
@@ -707,18 +781,18 @@ func EncodeToGnmiDistrict(
 		paramsDistrictId = append(paramsDistrictId, stringValDistrictId)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictDistrictId", paramsDistrictId...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/district-id"), paramsDistrictId...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: image string
 	if jsonObj.Image != nil { // Optional leaf
 
@@ -729,55 +803,67 @@ func EncodeToGnmiDistrict(
 		paramsImage = append(paramsImage, stringValImage)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictImage", paramsImage...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/image"), paramsImage...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/image"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: location DistrictLocation
 	if jsonObj.Location != nil { // Optional leaf
 
-		update, err := EncodeToGnmiDistrictLocation(
+		update, delete, err := EncodeToGnmiDistrictLocation(
 			jsonObj.Location, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "location"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: source DistrictSourceList
 	if jsonObj.Source != nil { // Optional leaf
 
-		update, err := EncodeToGnmiDistrictSourceList(
+		update, delete, err := EncodeToGnmiDistrictSourceList(
 			jsonObj.Source, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "source"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "District", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -785,7 +871,7 @@ func EncodeToGnmiDistrict(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -801,35 +887,37 @@ func EncodeToGnmiDistrict(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictList converts OAPI List to gNMI List.
 func EncodeToGnmiDistrictList(
 	jsonObj *DistrictList, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	for _, childObj := range *jsonObj {
 		childObj := childObj //Pinning
 		allParams := make([]string, len(params))
 		copy(allParams, params)
 		allParams = append(allParams, "unknown_id")
 
-		newUpdates, err := EncodeToGnmiDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
+		newUpdates, newDeletes, err := EncodeToGnmiDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, newUpdates...)
+		deletes = append(deletes, newDeletes...)
 	}
 
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictLocation converts OAPI to gNMI.
 func EncodeToGnmiDistrictLocation(
 	jsonObj *DistrictLocation, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -838,6 +926,7 @@ func EncodeToGnmiDistrictLocation(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -853,19 +942,19 @@ func EncodeToGnmiDistrictLocation(
 		paramsCoordinateSystem = append(paramsCoordinateSystem, (string)(jsonObj.CoordinateSystem))
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictLocationCoordinateSystem", paramsCoordinateSystem...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/coordinate-system"), paramsCoordinateSystem...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: orientation-x int64
 	if jsonObj.OrientationX != nil { // Optional leaf
 
@@ -876,18 +965,27 @@ func EncodeToGnmiDistrictLocation(
 		paramsOrientationX = append(paramsOrientationX, stringValOrientationX)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictLocationOrientationX", paramsOrientationX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/orientation-x"), paramsOrientationX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/orientation-x"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: x int64
 	_, unchangedX := unchangedAttrs["x"]
 	if !unchangedX { // Mandatory leaf
@@ -899,18 +997,18 @@ func EncodeToGnmiDistrictLocation(
 		paramsX = append(paramsX, stringValX)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictLocationX", paramsX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/x"), paramsX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: y int64
 	_, unchangedY := unchangedAttrs["y"]
 	if !unchangedY { // Mandatory leaf
@@ -922,18 +1020,18 @@ func EncodeToGnmiDistrictLocation(
 		paramsY = append(paramsY, stringValY)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictLocationY", paramsY...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/y"), paramsY...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: z int64
 	if jsonObj.Z != nil { // Optional leaf
 
@@ -944,33 +1042,41 @@ func EncodeToGnmiDistrictLocation(
 		paramsZ = append(paramsZ, stringValZ)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictLocationZ", paramsZ...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/z"), paramsZ...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/z"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "DistrictLocation", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -978,7 +1084,7 @@ func EncodeToGnmiDistrictLocation(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -994,13 +1100,13 @@ func EncodeToGnmiDistrictLocation(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictLocationCoordinateSystem converts OAPI to gNMI.
 func EncodeToGnmiDistrictLocationCoordinateSystem(
 	jsonObj *DistrictLocationCoordinateSystem, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1009,6 +1115,7 @@ func EncodeToGnmiDistrictLocationCoordinateSystem(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1024,24 +1131,24 @@ func EncodeToGnmiDistrictLocationCoordinateSystem(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "DistrictLocationCoordinateSystem", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSource converts OAPI to gNMI.
 func EncodeToGnmiDistrictSource(
 	jsonObj *DistrictSource, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1050,6 +1157,7 @@ func EncodeToGnmiDistrictSource(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1066,18 +1174,27 @@ func EncodeToGnmiDistrictSource(
 		paramsDescription = append(paramsDescription, stringValDescription)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceDescription", paramsDescription...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/description"), paramsDescription...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/description"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: display-name string
 	if jsonObj.DisplayName != nil { // Optional leaf
 
@@ -1088,18 +1205,27 @@ func EncodeToGnmiDistrictSource(
 		paramsDisplayName = append(paramsDisplayName, stringValDisplayName)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceDisplayName", paramsDisplayName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/display-name"), paramsDisplayName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/display-name"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: image string
 	if jsonObj.Image != nil { // Optional leaf
 
@@ -1110,29 +1236,40 @@ func EncodeToGnmiDistrictSource(
 		paramsImage = append(paramsImage, stringValImage)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceImage", paramsImage...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/image"), paramsImage...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/image"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: location DistrictSourceLocation
 	if jsonObj.Location != nil { // Optional leaf
 
-		update, err := EncodeToGnmiDistrictSourceLocation(
+		update, delete, err := EncodeToGnmiDistrictSourceLocation(
 			jsonObj.Location, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "location"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: source-id ListKey
 	_, unchangedSourceId := unchangedAttrs["source-id"]
 	if !unchangedSourceId { // Mandatory leaf
@@ -1144,55 +1281,58 @@ func EncodeToGnmiDistrictSource(
 		paramsSourceId = append(paramsSourceId, stringValSourceId)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceSourceId", paramsSourceId...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/source-id"), paramsSourceId...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: state DistrictSourceState
 	if jsonObj.State != nil { // Optional leaf
 
-		update, err := EncodeToGnmiDistrictSourceState(
+		update, delete, err := EncodeToGnmiDistrictSourceState(
 			jsonObj.State, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "state"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: video DistrictSourceVideo
 	if jsonObj.Video != nil { // Optional leaf
 
-		update, err := EncodeToGnmiDistrictSourceVideo(
+		update, delete, err := EncodeToGnmiDistrictSourceVideo(
 			jsonObj.Video, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "video"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "DistrictSource", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -1200,7 +1340,7 @@ func EncodeToGnmiDistrictSource(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -1216,35 +1356,37 @@ func EncodeToGnmiDistrictSource(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSourceList converts OAPI List to gNMI List.
 func EncodeToGnmiDistrictSourceList(
 	jsonObj *DistrictSourceList, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	for _, childObj := range *jsonObj {
 		childObj := childObj //Pinning
 		allParams := make([]string, len(params))
 		copy(allParams, params)
 		allParams = append(allParams, "unknown_id")
 
-		newUpdates, err := EncodeToGnmiDistrictSource(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
+		newUpdates, newDeletes, err := EncodeToGnmiDistrictSource(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, newUpdates...)
+		deletes = append(deletes, newDeletes...)
 	}
 
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSourceLocation converts OAPI to gNMI.
 func EncodeToGnmiDistrictSourceLocation(
 	jsonObj *DistrictSourceLocation, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1253,6 +1395,7 @@ func EncodeToGnmiDistrictSourceLocation(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1268,19 +1411,19 @@ func EncodeToGnmiDistrictSourceLocation(
 		paramsCoordinateSystem = append(paramsCoordinateSystem, (string)(jsonObj.CoordinateSystem))
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceLocationCoordinateSystem", paramsCoordinateSystem...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/coordinate-system"), paramsCoordinateSystem...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: orientation-x int64
 	if jsonObj.OrientationX != nil { // Optional leaf
 
@@ -1291,18 +1434,27 @@ func EncodeToGnmiDistrictSourceLocation(
 		paramsOrientationX = append(paramsOrientationX, stringValOrientationX)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceLocationOrientationX", paramsOrientationX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/orientation-x"), paramsOrientationX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/orientation-x"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: x int64
 	_, unchangedX := unchangedAttrs["x"]
 	if !unchangedX { // Mandatory leaf
@@ -1314,18 +1466,18 @@ func EncodeToGnmiDistrictSourceLocation(
 		paramsX = append(paramsX, stringValX)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceLocationX", paramsX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/x"), paramsX...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: y int64
 	_, unchangedY := unchangedAttrs["y"]
 	if !unchangedY { // Mandatory leaf
@@ -1337,18 +1489,18 @@ func EncodeToGnmiDistrictSourceLocation(
 		paramsY = append(paramsY, stringValY)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceLocationY", paramsY...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/y"), paramsY...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: z int64
 	if jsonObj.Z != nil { // Optional leaf
 
@@ -1359,33 +1511,41 @@ func EncodeToGnmiDistrictSourceLocation(
 		paramsZ = append(paramsZ, stringValZ)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceLocationZ", paramsZ...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/z"), paramsZ...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/z"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "DistrictSourceLocation", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -1393,7 +1553,7 @@ func EncodeToGnmiDistrictSourceLocation(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -1409,13 +1569,13 @@ func EncodeToGnmiDistrictSourceLocation(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSourceLocationCoordinateSystem converts OAPI to gNMI.
 func EncodeToGnmiDistrictSourceLocationCoordinateSystem(
 	jsonObj *DistrictSourceLocationCoordinateSystem, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1424,6 +1584,7 @@ func EncodeToGnmiDistrictSourceLocationCoordinateSystem(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1439,24 +1600,24 @@ func EncodeToGnmiDistrictSourceLocationCoordinateSystem(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceLocationCoordinateSystem", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSourceState converts OAPI to gNMI.
 func EncodeToGnmiDistrictSourceState(
 	jsonObj *DistrictSourceState, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1465,6 +1626,7 @@ func EncodeToGnmiDistrictSourceState(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1481,18 +1643,27 @@ func EncodeToGnmiDistrictSourceState(
 		paramsError = append(paramsError, stringValError)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceStateError", paramsError...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/error"), paramsError...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/error"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: error-since string
 	if jsonObj.ErrorSince != nil { // Optional leaf
 
@@ -1503,18 +1674,27 @@ func EncodeToGnmiDistrictSourceState(
 		paramsErrorSince = append(paramsErrorSince, stringValErrorSince)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceStateErrorSince", paramsErrorSince...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/error-since"), paramsErrorSince...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/error-since"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: status string
 	if jsonObj.Status != nil { // Optional leaf
 
@@ -1525,33 +1705,41 @@ func EncodeToGnmiDistrictSourceState(
 		paramsStatus = append(paramsStatus, stringValStatus)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceStateStatus", paramsStatus...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/status"), paramsStatus...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/status"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "DistrictSourceState", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -1559,7 +1747,7 @@ func EncodeToGnmiDistrictSourceState(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -1575,13 +1763,13 @@ func EncodeToGnmiDistrictSourceState(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSourceVideo converts OAPI to gNMI.
 func EncodeToGnmiDistrictSourceVideo(
 	jsonObj *DistrictSourceVideo, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1590,6 +1778,7 @@ func EncodeToGnmiDistrictSourceVideo(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1604,23 +1793,23 @@ func EncodeToGnmiDistrictSourceVideo(
 		copy(paramsPath, params)
 		stringValPath := fmt.Sprintf("%v", jsonObj.Path)
 		if stringValPath == "" {
-			return nil, liberrors.NewInvalid("mandatory field 'path' of 'DistrictSourceVideo' must be provided or added to 'unchanged'")
+			return nil, nil, liberrors.NewInvalid("mandatory field 'path' of 'DistrictSourceVideo' must be provided or added to 'unchanged'")
 		}
 		paramsPath = append(paramsPath, stringValPath)
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceVideoPath", paramsPath...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/path"), paramsPath...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: source-type string
 	_, unchangedSourceType := unchangedAttrs["source-type"]
 	if !unchangedSourceType { // Mandatory leaf
@@ -1630,34 +1819,33 @@ func EncodeToGnmiDistrictSourceVideo(
 		paramsSourceType = append(paramsSourceType, (string)(jsonObj.SourceType))
 		mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceVideoSourceType", paramsSourceType...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/source-type"), paramsSourceType...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "DistrictSourceVideo", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -1665,7 +1853,7 @@ func EncodeToGnmiDistrictSourceVideo(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -1681,13 +1869,13 @@ func EncodeToGnmiDistrictSourceVideo(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiDistrictSourceVideoSourceType converts OAPI to gNMI.
 func EncodeToGnmiDistrictSourceVideoSourceType(
 	jsonObj *DistrictSourceVideoSourceType, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1696,6 +1884,7 @@ func EncodeToGnmiDistrictSourceVideoSourceType(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1711,18 +1900,18 @@ func EncodeToGnmiDistrictSourceVideoSourceType(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "DistrictSourceVideoSourceType", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 //Ignoring LeafRefOption
@@ -1732,7 +1921,7 @@ func EncodeToGnmiDistrictSourceVideoSourceType(
 // EncodeToGnmiTrafficClassification converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassification(
 	jsonObj *TrafficClassification, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1741,6 +1930,7 @@ func EncodeToGnmiTrafficClassification(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1750,14 +1940,16 @@ func EncodeToGnmiTrafficClassification(
 	// Property: classification-application TrafficClassificationClassificationApplication
 	if jsonObj.ClassificationApplication != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficClassificationClassificationApplication(
+		update, delete, err := EncodeToGnmiTrafficClassificationClassificationApplication(
 			jsonObj.ClassificationApplication, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "classification-application"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: default string
 	if jsonObj.Default != nil { // Optional leaf
 
@@ -1768,40 +1960,53 @@ func EncodeToGnmiTrafficClassification(
 		paramsDefault = append(paramsDefault, stringValDefault)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDefault", paramsDefault...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/default"), paramsDefault...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/default"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: detection-application TrafficClassificationDetectionApplication
 	if jsonObj.DetectionApplication != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficClassificationDetectionApplication(
+		update, delete, err := EncodeToGnmiTrafficClassificationDetectionApplication(
 			jsonObj.DetectionApplication, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "detection-application"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: district TrafficClassificationDistrictList
 	if jsonObj.District != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficClassificationDistrictList(
+		update, delete, err := EncodeToGnmiTrafficClassificationDistrictList(
 			jsonObj.District, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "district"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: enable bool
 	_, unchangedEnable := unchangedAttrs["enable"]
 	if !unchangedEnable { // Mandatory leaf
@@ -1813,33 +2018,32 @@ func EncodeToGnmiTrafficClassification(
 		paramsEnable = append(paramsEnable, stringValEnable)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationEnable", paramsEnable...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/enable"), paramsEnable...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficClassification", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -1847,7 +2051,7 @@ func EncodeToGnmiTrafficClassification(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -1863,13 +2067,13 @@ func EncodeToGnmiTrafficClassification(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationClassificationApplication converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationClassificationApplication(
 	jsonObj *TrafficClassificationClassificationApplication, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -1878,6 +2082,7 @@ func EncodeToGnmiTrafficClassificationClassificationApplication(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -1893,19 +2098,19 @@ func EncodeToGnmiTrafficClassificationClassificationApplication(
 		paramsDevice = append(paramsDevice, (string)(jsonObj.Device))
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationDevice", paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/device"), paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: model string
 	if jsonObj.Model != nil { // Optional leaf
 
@@ -1916,29 +2121,40 @@ func EncodeToGnmiTrafficClassificationClassificationApplication(
 		paramsModel = append(paramsModel, stringValModel)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationModel", paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/model"), paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/model"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: model-state TrafficClassificationClassificationApplicationModelState
 	if jsonObj.ModelState != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
+		update, delete, err := EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 			jsonObj.ModelState, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "model-state"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: precision string
 	_, unchangedPrecision := unchangedAttrs["precision"]
 	if !unchangedPrecision { // Mandatory leaf
@@ -1948,34 +2164,33 @@ func EncodeToGnmiTrafficClassificationClassificationApplication(
 		paramsPrecision = append(paramsPrecision, (string)(jsonObj.Precision))
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationPrecision", paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/precision"), paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficClassificationClassificationApplication", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -1983,7 +2198,7 @@ func EncodeToGnmiTrafficClassificationClassificationApplication(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -1999,13 +2214,13 @@ func EncodeToGnmiTrafficClassificationClassificationApplication(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationClassificationApplicationDevice converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationClassificationApplicationDevice(
 	jsonObj *TrafficClassificationClassificationApplicationDevice, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2014,6 +2229,7 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationDevice(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2029,24 +2245,24 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationDevice(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationDevice", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationClassificationApplicationPrecision converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationClassificationApplicationPrecision(
 	jsonObj *TrafficClassificationClassificationApplicationPrecision, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2055,6 +2271,7 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationPrecision(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2070,24 +2287,24 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationPrecision(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationPrecision", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationClassificationApplicationModelState converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 	jsonObj *TrafficClassificationClassificationApplicationModelState, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2096,6 +2313,7 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2112,18 +2330,27 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 		paramsActiveModelFile = append(paramsActiveModelFile, stringValActiveModelFile)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationModelStateActiveModelFile", paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-file"), paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-file"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: active-model-name string
 	if jsonObj.ActiveModelName != nil { // Optional leaf
 
@@ -2134,33 +2361,41 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 		paramsActiveModelName = append(paramsActiveModelName, stringValActiveModelName)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationClassificationApplicationModelStateActiveModelName", paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-name"), paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-name"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficClassificationClassificationApplicationModelState", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -2168,7 +2403,7 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -2184,13 +2419,13 @@ func EncodeToGnmiTrafficClassificationClassificationApplicationModelState(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationDetectionApplication converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationDetectionApplication(
 	jsonObj *TrafficClassificationDetectionApplication, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2199,6 +2434,7 @@ func EncodeToGnmiTrafficClassificationDetectionApplication(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2214,19 +2450,19 @@ func EncodeToGnmiTrafficClassificationDetectionApplication(
 		paramsDevice = append(paramsDevice, (string)(jsonObj.Device))
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationDevice", paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/device"), paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: model string
 	if jsonObj.Model != nil { // Optional leaf
 
@@ -2237,29 +2473,40 @@ func EncodeToGnmiTrafficClassificationDetectionApplication(
 		paramsModel = append(paramsModel, stringValModel)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationModel", paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/model"), paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/model"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: model-state TrafficClassificationDetectionApplicationModelState
 	if jsonObj.ModelState != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
+		update, delete, err := EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 			jsonObj.ModelState, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "model-state"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: precision string
 	_, unchangedPrecision := unchangedAttrs["precision"]
 	if !unchangedPrecision { // Mandatory leaf
@@ -2269,34 +2516,33 @@ func EncodeToGnmiTrafficClassificationDetectionApplication(
 		paramsPrecision = append(paramsPrecision, (string)(jsonObj.Precision))
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationPrecision", paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/precision"), paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficClassificationDetectionApplication", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -2304,7 +2550,7 @@ func EncodeToGnmiTrafficClassificationDetectionApplication(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -2320,13 +2566,13 @@ func EncodeToGnmiTrafficClassificationDetectionApplication(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationDetectionApplicationDevice converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationDetectionApplicationDevice(
 	jsonObj *TrafficClassificationDetectionApplicationDevice, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2335,6 +2581,7 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationDevice(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2350,24 +2597,24 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationDevice(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationDevice", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationDetectionApplicationPrecision converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationDetectionApplicationPrecision(
 	jsonObj *TrafficClassificationDetectionApplicationPrecision, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2376,6 +2623,7 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationPrecision(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2391,24 +2639,24 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationPrecision(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationPrecision", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationDetectionApplicationModelState converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 	jsonObj *TrafficClassificationDetectionApplicationModelState, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2417,6 +2665,7 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2433,18 +2682,27 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 		paramsActiveModelFile = append(paramsActiveModelFile, stringValActiveModelFile)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationModelStateActiveModelFile", paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-file"), paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-file"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: active-model-name string
 	if jsonObj.ActiveModelName != nil { // Optional leaf
 
@@ -2455,33 +2713,41 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 		paramsActiveModelName = append(paramsActiveModelName, stringValActiveModelName)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDetectionApplicationModelStateActiveModelName", paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-name"), paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-name"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficClassificationDetectionApplicationModelState", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -2489,7 +2755,7 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -2505,13 +2771,13 @@ func EncodeToGnmiTrafficClassificationDetectionApplicationModelState(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationDistrict converts OAPI to gNMI.
 func EncodeToGnmiTrafficClassificationDistrict(
 	jsonObj *TrafficClassificationDistrict, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2520,6 +2786,7 @@ func EncodeToGnmiTrafficClassificationDistrict(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2537,18 +2804,18 @@ func EncodeToGnmiTrafficClassificationDistrict(
 		paramsDistrictRef = append(paramsDistrictRef, stringValDistrictRef)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDistrictDistrictRef", paramsDistrictRef...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/district-ref"), paramsDistrictRef...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: enabled bool
 	_, unchangedEnabled := unchangedAttrs["enabled"]
 	if !unchangedEnabled { // Mandatory leaf
@@ -2560,18 +2827,18 @@ func EncodeToGnmiTrafficClassificationDistrict(
 		paramsEnabled = append(paramsEnabled, stringValEnabled)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDistrictEnabled", paramsEnabled...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/enabled"), paramsEnabled...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: stream-count int
 	if jsonObj.StreamCount != nil { // Optional leaf
 
@@ -2582,33 +2849,41 @@ func EncodeToGnmiTrafficClassificationDistrict(
 		paramsStreamCount = append(paramsStreamCount, stringValStreamCount)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficClassificationDistrictStreamCount", paramsStreamCount...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/stream-count"), paramsStreamCount...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/stream-count"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficClassificationDistrict", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -2616,7 +2891,7 @@ func EncodeToGnmiTrafficClassificationDistrict(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -2632,35 +2907,37 @@ func EncodeToGnmiTrafficClassificationDistrict(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficClassificationDistrictList converts OAPI List to gNMI List.
 func EncodeToGnmiTrafficClassificationDistrictList(
 	jsonObj *TrafficClassificationDistrictList, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	for _, childObj := range *jsonObj {
 		childObj := childObj //Pinning
 		allParams := make([]string, len(params))
 		copy(allParams, params)
 		allParams = append(allParams, "unknown_id")
 
-		newUpdates, err := EncodeToGnmiTrafficClassificationDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
+		newUpdates, newDeletes, err := EncodeToGnmiTrafficClassificationDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, newUpdates...)
+		deletes = append(deletes, newDeletes...)
 	}
 
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoring converts OAPI to gNMI.
 func EncodeToGnmiTrafficMonitoring(
 	jsonObj *TrafficMonitoring, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2669,6 +2946,7 @@ func EncodeToGnmiTrafficMonitoring(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2685,29 +2963,40 @@ func EncodeToGnmiTrafficMonitoring(
 		paramsDefault = append(paramsDefault, stringValDefault)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringDefault", paramsDefault...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/default"), paramsDefault...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/default"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: district TrafficMonitoringDistrictList
 	if jsonObj.District != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficMonitoringDistrictList(
+		update, delete, err := EncodeToGnmiTrafficMonitoringDistrictList(
 			jsonObj.District, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "district"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: enable bool
 	_, unchangedEnable := unchangedAttrs["enable"]
 	if !unchangedEnable { // Mandatory leaf
@@ -2719,44 +3008,45 @@ func EncodeToGnmiTrafficMonitoring(
 		paramsEnable = append(paramsEnable, stringValEnable)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringEnable", paramsEnable...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/enable"), paramsEnable...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: person-vehicle-bike-detection-application TrafficMonitoringPersonVehicleBikeDetectionApplication
 	if jsonObj.PersonVehicleBikeDetectionApplication != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
+		update, delete, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 			jsonObj.PersonVehicleBikeDetectionApplication, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "person-vehicle-bike-detection-application"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficMonitoring", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -2764,7 +3054,7 @@ func EncodeToGnmiTrafficMonitoring(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -2780,13 +3070,13 @@ func EncodeToGnmiTrafficMonitoring(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoringDistrict converts OAPI to gNMI.
 func EncodeToGnmiTrafficMonitoringDistrict(
 	jsonObj *TrafficMonitoringDistrict, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2795,6 +3085,7 @@ func EncodeToGnmiTrafficMonitoringDistrict(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2812,18 +3103,18 @@ func EncodeToGnmiTrafficMonitoringDistrict(
 		paramsDistrictRef = append(paramsDistrictRef, stringValDistrictRef)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringDistrictDistrictRef", paramsDistrictRef...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/district-ref"), paramsDistrictRef...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: enabled bool
 	_, unchangedEnabled := unchangedAttrs["enabled"]
 	if !unchangedEnabled { // Mandatory leaf
@@ -2835,18 +3126,18 @@ func EncodeToGnmiTrafficMonitoringDistrict(
 		paramsEnabled = append(paramsEnabled, stringValEnabled)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringDistrictEnabled", paramsEnabled...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/enabled"), paramsEnabled...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: stream-count int
 	if jsonObj.StreamCount != nil { // Optional leaf
 
@@ -2857,33 +3148,41 @@ func EncodeToGnmiTrafficMonitoringDistrict(
 		paramsStreamCount = append(paramsStreamCount, stringValStreamCount)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringDistrictStreamCount", paramsStreamCount...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/stream-count"), paramsStreamCount...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/stream-count"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficMonitoringDistrict", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -2891,7 +3190,7 @@ func EncodeToGnmiTrafficMonitoringDistrict(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -2907,35 +3206,37 @@ func EncodeToGnmiTrafficMonitoringDistrict(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoringDistrictList converts OAPI List to gNMI List.
 func EncodeToGnmiTrafficMonitoringDistrictList(
 	jsonObj *TrafficMonitoringDistrictList, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	for _, childObj := range *jsonObj {
 		childObj := childObj //Pinning
 		allParams := make([]string, len(params))
 		copy(allParams, params)
 		allParams = append(allParams, "unknown_id")
 
-		newUpdates, err := EncodeToGnmiTrafficMonitoringDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
+		newUpdates, newDeletes, err := EncodeToGnmiTrafficMonitoringDistrict(&childObj, true, removeIndex, enterpriseId, fmt.Sprintf("%s/{unknown_key}", parentPath), allParams...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, newUpdates...)
+		deletes = append(deletes, newDeletes...)
 	}
 
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication converts OAPI to gNMI.
 func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 	jsonObj *TrafficMonitoringPersonVehicleBikeDetectionApplication, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -2944,6 +3245,7 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -2959,19 +3261,19 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 		paramsDevice = append(paramsDevice, (string)(jsonObj.Device))
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationDevice", paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/device"), paramsDevice...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
+
 	// Property: model string
 	if jsonObj.Model != nil { // Optional leaf
 
@@ -2982,29 +3284,40 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 		paramsModel = append(paramsModel, stringValModel)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationModel", paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/model"), paramsModel...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/model"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: model-state TrafficMonitoringPersonVehicleBikeDetectionApplicationModelState
 	if jsonObj.ModelState != nil { // Optional leaf
 
-		update, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelState(
+		update, delete, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelState(
 			jsonObj.ModelState, false, removeIndex, enterpriseId,
 			fmt.Sprintf("%s/%s", parentPath, "model-state"), params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		updates = append(updates, update...)
+		deletes = append(deletes, delete...)
 	}
+
 	// Property: precision string
 	_, unchangedPrecision := unchangedAttrs["precision"]
 	if !unchangedPrecision { // Mandatory leaf
@@ -3014,34 +3327,33 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 		paramsPrecision = append(paramsPrecision, (string)(jsonObj.Precision))
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision", paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField,
 			fmt.Sprintf("%s%s", parentPath, "/precision"), paramsPrecision...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficMonitoringPersonVehicleBikeDetectionApplication", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -3049,7 +3361,7 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -3065,13 +3377,13 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationDevice converts OAPI to gNMI.
 func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationDevice(
 	jsonObj *TrafficMonitoringPersonVehicleBikeDetectionApplicationDevice, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -3080,6 +3392,7 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationDevice(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -3095,24 +3408,24 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationDevice(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationDevice", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision converts OAPI to gNMI.
 func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision(
 	jsonObj *TrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -3121,6 +3434,7 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -3136,24 +3450,24 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelState converts OAPI to gNMI.
 func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelState(
 	jsonObj *TrafficMonitoringPersonVehicleBikeDetectionApplicationModelState, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -3162,6 +3476,7 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelStat
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -3178,18 +3493,27 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelStat
 		paramsActiveModelFile = append(paramsActiveModelFile, stringValActiveModelFile)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationModelStateActiveModelFile", paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-file"), paramsActiveModelFile...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-file"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
+
 	// Property: active-model-name string
 	if jsonObj.ActiveModelName != nil { // Optional leaf
 
@@ -3200,33 +3524,41 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelStat
 		paramsActiveModelName = append(paramsActiveModelName, stringValActiveModelName)
 		mpField, err := utils.CreateModelPluginObject(&mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationModelStateActiveModelName", paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		update, err := utils.UpdateForElement(mpField, fmt.Sprintf("%s%s", parentPath, "/active-model-name"), paramsActiveModelName...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if enterpriseId != "" {
 			update.Path.Target = string(enterpriseId)
 		}
 		updates = append(updates, update)
-
+	} else {
+		gnmiDelete, err := utils.DeleteForElement(fmt.Sprintf("%s%s", parentPath, "/active-model-name"), params...)
+		if err != nil {
+			return nil, nil, err
+		}
+		if enterpriseId != "" {
+			gnmiDelete.Target = string(enterpriseId)
+		}
+		deletes = append(deletes, gnmiDelete)
 	}
 
 	if needKey || removeIndex {
 		reflectKey, err := utils.FindModelPluginObject(mp, "TrafficMonitoringPersonVehicleBikeDetectionApplicationModelState", params...)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		if reflectKey == nil {
-			return updates, nil
+			return updates, deletes, nil
 		}
 		reflectType := reflectKey.Type()
 		reflect2 := reflect.New(reflectType) // Needed so the type can be read to extract list
 		reflect2.Elem().Set(*reflectKey)
 		keyMap, err := utils.ExtractGnmiListKeyMap(reflect2.Interface())
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 		indices := make([]int, 0)
 		for k, v := range keyMap {
@@ -3234,7 +3566,7 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelStat
 			for i, u := range updates {
 				if needKey {
 					if err := utils.ReplaceUnknownKey(u, k, v, utils.UnknownKey, keyMap); err != nil {
-						return nil, err
+						return nil, nil, err
 					}
 				}
 				if removeIndex {
@@ -3250,13 +3582,13 @@ func EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelStat
 			updates = utils.RemoveIndexAttributes(updates, indices)
 		}
 	}
-	return updates, nil
+	return updates, deletes, nil
 }
 
 // EncodeToGnmiCityId converts OAPI to gNMI.
 func EncodeToGnmiCityId(
 	jsonObj *CityId, needKey bool, removeIndex bool, enterpriseId CityId, parentPath string, params ...string) (
-	[]*gnmi.Update, error) {
+	[]*gnmi.Update, []*gnmi.Path, error) {
 
 	unchangedAttrs, tgt := utils.CheckForAdditionalProps(jsonObj)
 	if tgt != nil {
@@ -3265,6 +3597,7 @@ func EncodeToGnmiCityId(
 	_ = len(unchangedAttrs)
 
 	updates := make([]*gnmi.Update, 0)
+	deletes := make([]*gnmi.Path, 0)
 	mp := externalRef0.Device{}
 	// For when the encode is called on the top level object
 	if len(params) == 1 && strings.HasSuffix(parentPath, params[0]) {
@@ -3280,18 +3613,18 @@ func EncodeToGnmiCityId(
 
 	mpField, err := utils.CreateModelPluginObject(&mp, "CityId", paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	update, err := utils.UpdateForElement(mpField, parentPath, paramsLeafList...)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if enterpriseId != "" {
 		update.Path.Target = string(enterpriseId)
 	}
 	updates = append(updates, update)
-	return updates, nil
+	return updates, deletes, nil
 }
 
 //Ignoring RequestBodyCollisionDetection

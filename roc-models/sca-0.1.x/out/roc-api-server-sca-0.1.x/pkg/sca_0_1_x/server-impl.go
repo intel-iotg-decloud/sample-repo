@@ -23,6 +23,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/onosproject/aether-roc-api/pkg/southbound"
 	"github.com/onosproject/aether-roc-api/pkg/utils"
+	"github.com/onosproject/onos-api/go/onos/config/admin"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/onosproject/onos-config/pkg/store/topo"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
@@ -179,11 +180,11 @@ func (i *ServerImpl) GnmiPostCollisionDetection(ctx context.Context, body []byte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Collision-detection %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetection(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetection(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetection to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -260,11 +261,11 @@ func (i *ServerImpl) GnmiPostCollisionDetectionDetectionApplication(ctx context.
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Collision-detection_Detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetectionDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetectionDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetectionDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -341,11 +342,11 @@ func (i *ServerImpl) GnmiPostCollisionDetectionDetectionApplicationDevice(ctx co
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as CollisionDetectionDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetectionDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetectionDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetectionDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -422,11 +423,11 @@ func (i *ServerImpl) GnmiPostCollisionDetectionDetectionApplicationPrecision(ctx
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as CollisionDetectionDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetectionDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetectionDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetectionDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -503,11 +504,11 @@ func (i *ServerImpl) GnmiPostCollisionDetectionDetectionApplicationModelState(ct
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Collision-detection_Detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetectionDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetectionDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetectionDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -584,11 +585,11 @@ func (i *ServerImpl) GnmiPostCollisionDetectionDistrict(ctx context.Context, bod
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Collision-detection_District %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetectionDistrict(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetectionDistrict(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetectionDistrict to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -665,11 +666,11 @@ func (i *ServerImpl) GnmiPostCollisionDetectionDistrictList(ctx context.Context,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Collision-detection_District_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCollisionDetectionDistrictList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCollisionDetectionDistrictList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CollisionDetectionDistrictList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -746,11 +747,11 @@ func (i *ServerImpl) GnmiPostDistrict(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrict(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrict(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert District to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -827,11 +828,11 @@ func (i *ServerImpl) GnmiPostDistrictList(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -908,11 +909,11 @@ func (i *ServerImpl) GnmiPostDistrictLocation(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_Location %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictLocation(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictLocation(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictLocation to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -989,11 +990,11 @@ func (i *ServerImpl) GnmiPostDistrictLocationCoordinateSystem(ctx context.Contex
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as DistrictLocation.CoordinateSystem %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictLocationCoordinateSystem to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1070,11 +1071,11 @@ func (i *ServerImpl) GnmiPostDistrictSource(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_Source %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSource(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSource(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSource to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1151,11 +1152,11 @@ func (i *ServerImpl) GnmiPostDistrictSourceList(ctx context.Context, body []byte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_Source_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSourceList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSourceList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSourceList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1232,11 +1233,11 @@ func (i *ServerImpl) GnmiPostDistrictSourceLocation(ctx context.Context, body []
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_Source_Location %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSourceLocation(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSourceLocation(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSourceLocation to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1313,11 +1314,11 @@ func (i *ServerImpl) GnmiPostDistrictSourceLocationCoordinateSystem(ctx context.
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as DistrictSourceLocation.CoordinateSystem %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSourceLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSourceLocationCoordinateSystem(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSourceLocationCoordinateSystem to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1394,11 +1395,11 @@ func (i *ServerImpl) GnmiPostDistrictSourceState(ctx context.Context, body []byt
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_Source_State %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSourceState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSourceState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSourceState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1475,11 +1476,11 @@ func (i *ServerImpl) GnmiPostDistrictSourceVideo(ctx context.Context, body []byt
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as District_Source_Video %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSourceVideo(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSourceVideo(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSourceVideo to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1556,11 +1557,11 @@ func (i *ServerImpl) GnmiPostDistrictSourceVideoSourceType(ctx context.Context, 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as DistrictSourceVideo.SourceType %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiDistrictSourceVideoSourceType(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiDistrictSourceVideoSourceType(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert DistrictSourceVideoSourceType to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1641,11 +1642,11 @@ func (i *ServerImpl) GnmiPostTrafficClassification(ctx context.Context, body []b
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassification(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassification(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassification to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1722,11 +1723,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationClassificationApplication(ctx 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification_Classification-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationClassificationApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationClassificationApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationClassificationApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1803,11 +1804,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationClassificationApplicationDevic
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as TrafficClassificationClassificationApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationClassificationApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationClassificationApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationClassificationApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1884,11 +1885,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationClassificationApplicationPreci
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as TrafficClassificationClassificationApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationClassificationApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationClassificationApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationClassificationApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -1965,11 +1966,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationClassificationApplicationModel
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification_Classification-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationClassificationApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationClassificationApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationClassificationApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2046,11 +2047,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationDetectionApplication(ctx conte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification_Detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2127,11 +2128,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationDetectionApplicationDevice(ctx
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as TrafficClassificationDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2208,11 +2209,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationDetectionApplicationPrecision(
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as TrafficClassificationDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2289,11 +2290,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationDetectionApplicationModelState
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification_Detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2370,11 +2371,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationDistrict(ctx context.Context, 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification_District %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationDistrict(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationDistrict(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationDistrict to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2451,11 +2452,11 @@ func (i *ServerImpl) GnmiPostTrafficClassificationDistrictList(ctx context.Conte
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-classification_District_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficClassificationDistrictList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficClassificationDistrictList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficClassificationDistrictList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2532,11 +2533,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoring(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-monitoring %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoring(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoring(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoring to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2613,11 +2614,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoringDistrict(ctx context.Context, body
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-monitoring_District %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoringDistrict(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoringDistrict(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoringDistrict to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2694,11 +2695,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoringDistrictList(ctx context.Context, 
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-monitoring_District_List %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoringDistrictList(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoringDistrictList(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoringDistrictList to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2775,11 +2776,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoringPersonVehicleBikeDetectionApplicat
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-monitoring_Person-vehicle-bike-detection-application %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplication(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoringPersonVehicleBikeDetectionApplication to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2856,11 +2857,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoringPersonVehicleBikeDetectionApplicat
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as TrafficMonitoringPersonVehicleBikeDetectionApplication.Device %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationDevice(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoringPersonVehicleBikeDetectionApplicationDevice to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -2937,11 +2938,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoringPersonVehicleBikeDetectionApplicat
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as TrafficMonitoringPersonVehicleBikeDetectionApplication.Precision %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoringPersonVehicleBikeDetectionApplicationPrecision to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3018,11 +3019,11 @@ func (i *ServerImpl) GnmiPostTrafficMonitoringPersonVehicleBikeDetectionApplicat
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as Traffic-monitoring_Person-vehicle-bike-detection-application_Model-state %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiTrafficMonitoringPersonVehicleBikeDetectionApplicationModelState(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert TrafficMonitoringPersonVehicleBikeDetectionApplicationModelState to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3099,11 +3100,11 @@ func (i *ServerImpl) GnmiPostCityId(ctx context.Context, body []byte,
 	if err := json.Unmarshal(body, jsonObj); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal JSON as city-id %v", err)
 	}
-	gnmiUpdates, err := EncodeToGnmiCityId(jsonObj, false, false, enterpriseId, "", args...)
+	gnmiUpdates, gnmiDeletes, err := EncodeToGnmiCityId(jsonObj, false, false, enterpriseId, "", args...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert CityId to gNMI %v", err)
 	}
-	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdates(openApiPath, string(enterpriseId), gnmiUpdates, args...)
+	gnmiSet, err := utils.NewGnmiSetUpdateRequestUpdatesDeletes(openApiPath, string(enterpriseId), gnmiUpdates, gnmiDeletes, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -3265,9 +3266,10 @@ var log = logging.GetLogger("model_0_0_0")
 
 // ServerImpl -
 type ServerImpl struct {
-	GnmiClient   southbound.GnmiClient
-	GnmiTimeout  time.Duration
-	TopoEndpoint string
+	GnmiClient               southbound.GnmiClient
+	GnmiTimeout              time.Duration
+	TopoEndpoint             string
+	ConfigAdminServiceClient admin.ConfigAdminServiceClient
 }
 
 // DeleteCollisionDetection impl of gNMI access at /sca/v0.1.x/{city-id}/collision-detection

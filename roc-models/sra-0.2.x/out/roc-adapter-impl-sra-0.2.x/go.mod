@@ -8,8 +8,8 @@ go 1.18
 require (
 	github.com/intel-innersource/frameworks.edge.one-intel-edge.maestro-app.roc.config-adapter v0.0.7
 	github.com/intel-innersource/frameworks.edge.one-intel-edge.springboard.reference-implementation.roc-models/models/sra-0.2.x v0.2.3
-	github.com/onosproject/onos-api/go v0.9.46
-	github.com/onosproject/onos-lib-go v0.9.3
+	github.com/onosproject/onos-api/go v0.10.4
+	github.com/onosproject/onos-lib-go v0.9.5
 	github.com/openconfig/ygot v0.24.4
 	github.com/stretchr/testify v1.7.1
 
@@ -17,7 +17,7 @@ require (
 
 require (
 	github.com/Shopify/sarama v1.31.1 // indirect
-	github.com/atomix/runtime/sdk v0.3.4 // indirect
+	github.com/atomix/runtime/sdk v0.7.4 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cenkalti/backoff/v4 v4.1.1 // indirect

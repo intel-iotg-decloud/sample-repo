@@ -9,13 +9,13 @@ import (
 	"github.com/SeanCondon/xpath"
 	"github.com/onosproject/config-models/pkg/xpath/navigator"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
+	"os"
 	"testing"
 )
 
-// Test_XPathSelectRelativeStart - start each test from switch[1] - the thing that contains all the port entries
+// Test_XPathSelectRelativeStart - start each test from collision-detection/default
 func Test_XPathSelectRelativeStart(t *testing.T) {
-	sampleConfig, err := ioutil.ReadFile("testdata/full-config-example.json")
+	sampleConfig, err := os.ReadFile("testdata/full-config-example.json")
 	if err != nil {
 		assert.NoError(t, err)
 	}
@@ -29,8 +29,10 @@ func Test_XPathSelectRelativeStart(t *testing.T) {
 	}
 	schema.Root = device
 	assert.NotNil(t, device)
-	ynn := navigator.NewYangNodeNavigator(schema.RootSchema(), device, true)
-	assert.NotNil(t, ynn)
+	nn := navigator.NewYangNodeNavigator(schema.RootSchema(), device, true)
+	assert.NotNil(t, nn)
+	ynn, ok := nn.(*navigator.YangNodeNavigator)
+	assert.True(t, ok)
 
 	tests := []navigator.XpathSelect{
 		{
@@ -41,19 +43,28 @@ func Test_XPathSelectRelativeStart(t *testing.T) {
 			},
 		},
 		{
-			Name:  "retail areas of this shopper-monitoring",
-			XPath: "../retail-area/@area-ref",
+			Name:  "districts of this collision-detection",
+			XPath: "$this/../district/@district-ref",
 			Expected: []string{
-				"Iter Value: area-ref: area1",
-				"Iter Value: area-ref: area3",
+				"Iter Value: district-ref: district1",
+				"Iter Value: district-ref: district3",
 			},
 		},
 		{
-			Name:  "retail areas referenced by this shopper-monitoring",
-			XPath: "/retail-area[@area-id=$this/../retail-area/@area-ref]/@area-id",
+			Name:  "districts referenced by this collision-detection",
+			XPath: "/district[@district-id=$this/../district/@district-ref]/@district-id",
 			Expected: []string{
-				"Iter Value: area-id: area1",
-				"Iter Value: area-id: area3",
+				"Iter Value: district-id: district1",
+				"Iter Value: district-id: district3",
+			},
+		},
+		{
+			Name:  "sources of retail areas referenced by this shopper-monitoring",
+			XPath: "/district[@district-id=$this/../district/@district-ref]/source/@source-id",
+			Expected: []string{
+				"Iter Value: source-id: source1-1",
+				"Iter Value: source-id: source1-2",
+				"Iter Value: source-id: source3-1",
 			},
 		},
 	}
@@ -66,12 +77,7 @@ func Test_XPathSelectRelativeStart(t *testing.T) {
 		}
 		assert.NotNil(t, expr, test.Name)
 
-		ynn.MoveToRoot()
-		assert.True(t, ynn.MoveToChild()) // retail-area[1]
-		assert.True(t, ynn.MoveToNext())  // retail-area[2]
-		assert.True(t, ynn.MoveToNext())  // retail-area[3]
-		assert.True(t, ynn.MoveToNext())  // store-traffic-monitoring
-		assert.True(t, ynn.MoveToChild()) // default
+		ynn.NavigateTo("/collision-detection/default")
 
 		iter := expr.Select(ynn)
 		resultCount := 0
@@ -86,7 +92,7 @@ func Test_XPathSelectRelativeStart(t *testing.T) {
 }
 
 func Test_XPathEvaluateDefault(t *testing.T) {
-	sampleConfig, err := ioutil.ReadFile("testdata/full-config-example.json")
+	sampleConfig, err := os.ReadFile("testdata/full-config-example.json")
 	if err != nil {
 		assert.NoError(t, err)
 	}
@@ -100,8 +106,10 @@ func Test_XPathEvaluateDefault(t *testing.T) {
 	}
 	schema.Root = device
 	assert.NotNil(t, device)
-	ynn := navigator.NewYangNodeNavigator(schema.RootSchema(), device, true)
-	assert.NotNil(t, ynn)
+	nn := navigator.NewYangNodeNavigator(schema.RootSchema(), device, true)
+	assert.NotNil(t, nn)
+	ynn, ok := nn.(*navigator.YangNodeNavigator)
+	assert.True(t, ok)
 
 	tests := []navigator.XpathEvaluate{
 		{
@@ -111,13 +119,18 @@ func Test_XPathEvaluateDefault(t *testing.T) {
 		},
 		{
 			Name:     "number of retail areas in this store-traffic-monitoring",
-			XPath:    "count($this/../retail-area)",
+			XPath:    "count($this/../district)",
 			Expected: float64(2),
 		},
 		{
 			Name:     "number of retail areas in this store-traffic-monitoring",
-			XPath:    "count(/retail-area[@area-id = $this/../retail-area/@area-ref]/@area-id)",
+			XPath:    "count(/district[@district-id = $this/../district/@district-ref]/@district-id)",
 			Expected: float64(2),
+		},
+		{
+			Name:     "number of sources of retail areas in this store-traffic-monitoring",
+			XPath:    "count(/district[@district-id = $this/../district/@district-ref]/source/@source-id)",
+			Expected: float64(3),
 		},
 	}
 
@@ -126,12 +139,7 @@ func Test_XPathEvaluateDefault(t *testing.T) {
 		assert.NoError(t, testErr, test.Name)
 		assert.NotNil(t, expr, test.Name)
 
-		ynn.MoveToRoot()
-		assert.True(t, ynn.MoveToChild()) // retail-area[1]
-		assert.True(t, ynn.MoveToNext())  // retail-area[2]
-		assert.True(t, ynn.MoveToNext())  // retail-area[3]
-		assert.True(t, ynn.MoveToNext())  // store-traffic-monitoring
-		assert.True(t, ynn.MoveToChild()) // default
+		ynn.NavigateTo("/collision-detection/default")
 
 		result := expr.Evaluate(ynn)
 		assert.Equal(t, test.Expected, result, test.Name)

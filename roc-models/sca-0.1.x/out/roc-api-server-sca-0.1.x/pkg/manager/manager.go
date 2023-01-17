@@ -8,12 +8,13 @@ import (
     "fmt"
     "github.com/labstack/echo/v4"
     "github.com/labstack/echo/v4/middleware"
+    "github.com/onosproject/aether-roc-api/pkg/southbound"
+	"github.com/onosproject/onos-api/go/onos/config/admin"
     "github.com/onosproject/onos-lib-go/pkg/certs"
-    "github.com/onosproject/onos-lib-go/pkg/logging"
     "github.com/onosproject/onos-lib-go/pkg/grpc/retry"
+    "github.com/onosproject/onos-lib-go/pkg/logging"
     "google.golang.org/grpc"
     "time"
-    "github.com/onosproject/aether-roc-api/pkg/southbound"
     server "github.com/tmp/out/roc-api-server-sca-0.1.x/pkg/sca_0_1_x"
 )
 
@@ -45,7 +46,6 @@ func NewManager(cfg Config) *Manager {
     return &mgr
 }
 
-
 func (m *Manager) Run() error {
     opts, err := certs.HandleCertPaths(m.Config.CaPath, m.Config.KeyPath, m.Config.CertPath, true)
     if err != nil {
@@ -73,6 +73,7 @@ func (m *Manager) Run() error {
         GnmiClient:  gnmiClient,
         GnmiTimeout: m.Config.GnmiTimeout,
         TopoEndpoint: m.Config.TopoEndpoint,
+   	   	ConfigAdminServiceClient: admin.NewConfigAdminServiceClient(gnmiConn),
     }
     m.echoRouter = echo.New()
     if m.Config.LogLevel == "DEBUG" {
